@@ -13,7 +13,7 @@
 
 ## Further Evaluation
 - Meyz:
--   - Add share/export pdf of reports
+    - Add share/export pdf of reports
     - On Envelopes page, textview positions need to adjust.
     - On the Account page, change the buttons so that users can understand that they will
 - Mahid
