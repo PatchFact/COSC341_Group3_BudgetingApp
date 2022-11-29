@@ -8,7 +8,7 @@
 - [ ] Reports - Rommel
 
 ## XML Struture
-- Transactions {TransactionId (PK), EnvelopeId, Date, Note, Account, Amount, Payee} EnvelopeId is FK to Envelopes
+- Transactions {TransactionId (PK), EnvelopeId, Date, Note, Account, Amount} EnvelopeId is FK to Envelopes
 - Envelopes {EnvelopeId (PK), Budget, Name, Color}
 
 ## Further Evaluation
