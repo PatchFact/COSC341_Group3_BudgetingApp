@@ -25,6 +25,7 @@ import javax.xml.parsers.ParserConfigurationException;
 public class MainActivity extends AppCompatActivity {
 
     Button transaction_button;
+    Button envelope_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, TransactionsOverview.class);
+
+                startActivity(intent);
+            }
+        });
+
+        envelope_button = findViewById(R.id.envelope_button);
+        envelope_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, EnvelopesOverview.class);
 
                 startActivity(intent);
             }
