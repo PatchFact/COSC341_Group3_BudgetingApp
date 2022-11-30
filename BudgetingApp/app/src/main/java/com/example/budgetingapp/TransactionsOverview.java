@@ -2,10 +2,13 @@ package com.example.budgetingapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -17,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -25,6 +29,10 @@ import javax.xml.parsers.ParserConfigurationException;
 public class TransactionsOverview extends AppCompatActivity {
 
     Button addButton;
+    TextView amount1;
+    TextView amount2;
+    TextView amount3;
+    TextView amount4;
 
     private Document XML;
 
@@ -44,21 +52,19 @@ public class TransactionsOverview extends AppCompatActivity {
 
     List<Transaction> allTransactions = new ArrayList<>();
 
+    @SuppressLint("DefaultLocale")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transactions_overview);
 
-        getSupportActionBar().setTitle("Transactions");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Transactions");
 
         addButton = findViewById(R.id.add_button);
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(TransactionsOverview.this, AddTransaction.class);
+        addButton.setOnClickListener(v -> {
+            Intent intent = new Intent(TransactionsOverview.this, AddTransaction.class);
 
-                startActivity(intent);
-            }
+            startActivity(intent);
         });
 
         try {
@@ -72,6 +78,20 @@ public class TransactionsOverview extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        amount1 = findViewById(R.id.amount1);
+        amount2 = findViewById(R.id.amount2);
+        amount3 = findViewById(R.id.amount3);
+        amount4 = findViewById(R.id.amount4);
+
+
+        Toast.makeText(this, "" + String.format("%.2f", allTransactions.get(0).amount), Toast.LENGTH_SHORT).show();
+
+        amount1.setText(String.format("%.2f", allTransactions.get(0).amount));
+        amount2.setText(String.format("%.2f", allTransactions.get(1).amount));
+        amount3.setText(String.format("%.2f", allTransactions.get(2).amount));
+        amount4.setText(String.format("%.2f", allTransactions.get(3).amount));
+
     }
 
 
@@ -80,12 +100,12 @@ public class TransactionsOverview extends AppCompatActivity {
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 
         //TODO: add try/catch
-        File inputFile = new File("/data/data/com.example.chartjava/files/data.xml");
+        @SuppressLint("SdCardPath") File inputFile = new File("/data/data/com.example.budgetingapp/data.xml");
         XML = dBuilder.parse(inputFile);
         XML.getDocumentElement().normalize();
     }
 
-    private List readTransactions() throws Exception {
+    private List<Transaction> readTransactions() throws Exception {
         //Get all transactions
         NodeList transactionNodes = XML.getElementsByTagName("Transaction");
         List<Transaction> transactions = new ArrayList<>();
@@ -100,7 +120,7 @@ public class TransactionsOverview extends AppCompatActivity {
             String account = transaction.getElementsByTagName("Account").item(0).getTextContent();
             String note = transaction.getElementsByTagName("Note").item(0).getTextContent();
 
-            transactions.add(new Transaction(amount, date, account, note));
+            transactions.add(new Transaction(amount, account, date, note));
         }
 
         return transactions;
