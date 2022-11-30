@@ -41,12 +41,14 @@ public class TransactionsOverview extends AppCompatActivity {
         public final String date;
         public final String account;
         public final String note;
+        public final String color;
 
-        private Transaction(double amount, String account, String date, String note) {
+        private Transaction(double amount, String account, String date, String note, String color) {
             this.amount = amount;
             this.account = account;
             this.date = date;
             this.note = note;
+            this.color = color;
         }
     }
 
@@ -87,13 +89,12 @@ public class TransactionsOverview extends AppCompatActivity {
 
         Toast.makeText(this, "" + String.format("%.2f", allTransactions.get(0).amount), Toast.LENGTH_SHORT).show();
 
-        amount1.setText(String.format("%.2f", allTransactions.get(0).amount));
-        amount2.setText(String.format("%.2f", allTransactions.get(1).amount));
-        amount3.setText(String.format("%.2f", allTransactions.get(2).amount));
-        amount4.setText(String.format("%.2f", allTransactions.get(3).amount));
+        amount1.setText(String.format("%.2f", allTransactions.get(0).amount) + allTransactions.get(0).color);
+        amount2.setText(String.format("%.2f", allTransactions.get(1).amount) + allTransactions.get(1).color);
+        amount3.setText(String.format("%.2f", allTransactions.get(2).amount) + allTransactions.get(2).color);
+        amount4.setText(String.format("%.2f", allTransactions.get(3).amount) + allTransactions.get(3).color);
 
     }
-
 
     private void initializeXMLDoc() throws ParserConfigurationException, IOException, SAXException {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -106,23 +107,58 @@ public class TransactionsOverview extends AppCompatActivity {
     }
 
     private List<Transaction> readTransactions() throws Exception {
-        //Get all transactions
-        NodeList transactionNodes = XML.getElementsByTagName("Transaction");
+
+        NodeList envelopes = XML.getElementsByTagName("Envelope");
         List<Transaction> transactions = new ArrayList<>();
 
-        //Loop for every transaction
-        for (int i = 0; i < transactionNodes.getLength(); i++) {
-            Node N = transactionNodes.item(i);
-            Element transaction = (Element) N;
+        //Loop over each envelope
+        for (int i = 0; i < envelopes.getLength(); i++) {
 
-            double amount = Double.parseDouble(transaction.getElementsByTagName("Amount").item(0).getTextContent());
-            String date = transaction.getElementsByTagName("Date").item(0).getTextContent();
-            String account = transaction.getElementsByTagName("Account").item(0).getTextContent();
-            String note = transaction.getElementsByTagName("Note").item(0).getTextContent();
+            Node N = envelopes.item(i);
+            Element envelope = (Element) N;
+            String env_color = envelope.getElementsByTagName("Color").item(0).getTextContent();
 
-            transactions.add(new Transaction(amount, account, date, note));
+            //Loop over every transaction within envelope
+            if (N.getNodeType() == Node.ELEMENT_NODE) {
+
+                //Get all transactions inside envelope
+                NodeList envelopeTransactions = envelope.getElementsByTagName("Transaction");
+
+                for (int j = 0; j < envelopeTransactions.getLength(); j++) {
+
+                    Element transaction = (Element) envelopeTransactions.item(j);
+
+                    double amount = Double.parseDouble(transaction.getElementsByTagName("Amount").item(0).getTextContent());
+                    String date = transaction.getElementsByTagName("Date").item(0).getTextContent();
+                    String account = transaction.getElementsByTagName("Account").item(0).getTextContent();
+                    String note = transaction.getElementsByTagName("Note").item(0).getTextContent();
+
+                    transactions.add(new Transaction(amount, account, date, note, env_color));
+                }
+            }
         }
 
         return transactions;
     }
+
+//    private List<Transaction> readTransactions() throws Exception {
+//        //Get all transactions
+//        NodeList transactionNodes = XML.getElementsByTagName("Transaction");
+//        List<Transaction> transactions = new ArrayList<>();
+//
+//        //Loop for every transaction
+//        for (int i = 0; i < transactionNodes.getLength(); i++) {
+//            Node N = transactionNodes.item(i);
+//            Element transaction = (Element) N;
+//
+//            double amount = Double.parseDouble(transaction.getElementsByTagName("Amount").item(0).getTextContent());
+//            String date = transaction.getElementsByTagName("Date").item(0).getTextContent();
+//            String account = transaction.getElementsByTagName("Account").item(0).getTextContent();
+//            String note = transaction.getElementsByTagName("Note").item(0).getTextContent();
+//
+//            transactions.add(new Transaction(amount, account, date, note));
+//        }
+//
+//        return transactions;
+//    }
 }
