@@ -140,25 +140,4 @@ public class TransactionsOverview extends AppCompatActivity {
 
         return transactions;
     }
-
-//    private List<Transaction> readTransactions() throws Exception {
-//        //Get all transactions
-//        NodeList transactionNodes = XML.getElementsByTagName("Transaction");
-//        List<Transaction> transactions = new ArrayList<>();
-//
-//        //Loop for every transaction
-//        for (int i = 0; i < transactionNodes.getLength(); i++) {
-//            Node N = transactionNodes.item(i);
-//            Element transaction = (Element) N;
-//
-//            double amount = Double.parseDouble(transaction.getElementsByTagName("Amount").item(0).getTextContent());
-//            String date = transaction.getElementsByTagName("Date").item(0).getTextContent();
-//            String account = transaction.getElementsByTagName("Account").item(0).getTextContent();
-//            String note = transaction.getElementsByTagName("Note").item(0).getTextContent();
-//
-//            transactions.add(new Transaction(amount, account, date, note));
-//        }
-//
-//        return transactions;
-//    }
 }
