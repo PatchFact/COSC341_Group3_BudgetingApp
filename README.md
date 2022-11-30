@@ -9,7 +9,7 @@
 
 ## XML Struture
 - Transactions {TransactionId (PK), EnvelopeId, Date, Note, Account, Amount} EnvelopeId is FK to Envelopes
-- Envelopes {EnvelopeId (PK), Budget, Name}
+- Envelopes {EnvelopeId (PK), Budget, Name, Color}
 
 ## Further Evaluation
 - Meyz:
