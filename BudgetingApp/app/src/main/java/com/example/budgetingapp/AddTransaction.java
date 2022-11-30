@@ -11,6 +11,6 @@ public class AddTransaction extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_transaction);
 
-        getSupportActionBar().setTitle("Add Transaction"    );
+        getSupportActionBar().setTitle("Add Transaction");
     }
 }
