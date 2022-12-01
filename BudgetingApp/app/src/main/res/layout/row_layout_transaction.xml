@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    android:id="@+id/relativeLayout1"
+    android:id="@+id/linearLayout1"
     android:layout_height="fill_parent"
     android:layout_width="fill_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
@@ -8,40 +8,46 @@
     <TextView
         android:id="@+id/date"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
         android:text="First"
-        android:layout_weight="1">
-    </TextView>
+        android:textSize="16sp"></TextView>
 
     <TextView
         android:id="@+id/note"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="20dp"
+        android:layout_height="50dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
         android:text="Second"
-        android:layout_weight="1">
-    </TextView>
+        android:textSize="12sp"></TextView>
 
     <TextView
         android:id="@+id/envelope"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="20dp"
+        android:layout_height="50dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
         android:text="Third"
-        android:layout_weight="1">
-    </TextView>
+        android:textSize="12sp"></TextView>
 
     <TextView
         android:id="@+id/account"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
         android:text="Fourth"
-        android:layout_weight="1">
-    </TextView>
+        android:textSize="12sp"></TextView>
 
     <TextView
         android:id="@+id/amount"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
+        android:layout_weight="1"
+        android:gravity="right|center_vertical"
+        android:paddingRight="10dp"
         android:text="Fifth"
-        android:layout_weight="1">
-    </TextView>
+        android:textSize="16sp"></TextView>
 </LinearLayout>

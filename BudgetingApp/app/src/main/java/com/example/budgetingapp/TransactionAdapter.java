@@ -2,6 +2,7 @@ package com.example.budgetingapp;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,11 +39,24 @@ public class TransactionAdapter extends ArrayAdapter<Transaction> {
         TextView txtNote = convertView.findViewById(R.id.note);
         TextView txtEnvelope = convertView.findViewById(R.id.envelope);
 
+        String amountString = "$" + getItem(position).getAmount().replace("-", "");
+
+        if (Double.parseDouble(getItem(position).getAmount()) < 0) {
+            amountString = "- " + amountString;
+            txtAmount.setTextColor(Color.parseColor("#be4d25"));
+        } else {
+            txtAmount.setTextColor(Color.parseColor("#96be25"));
+        }
+
+        String colorString = getItem(position).getColor().replace("#", "#33");
+        convertView.setBackgroundColor(Color.parseColor(colorString));
+
+
         txtAccount.setText(getItem(position).getAccount());
-        txtAmount.setText(getItem(position).getAmount());
+        txtAmount.setText(amountString);
         txtDate.setText(getItem(position).getDate());
         txtNote.setText(getItem(position).getNote());
-        txtEnvelope.setText(getItem(position).getAccount());
+        txtEnvelope.setText(getItem(position).getEnvelope());
 
         return convertView;
     }

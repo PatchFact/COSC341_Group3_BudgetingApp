@@ -1,6 +1,6 @@
 package com.example.budgetingapp;
 
-public class Transaction {
+public class Transaction implements Comparable<Transaction> {
     public final String amount;
     public final String date;
     public final String account;
@@ -39,5 +39,10 @@ public class Transaction {
 
     public String getEnvelope() {
         return envelope;
+    }
+
+    @Override
+    public int compareTo(Transaction other) {
+        return date.compareTo(other.date);
     }
 }

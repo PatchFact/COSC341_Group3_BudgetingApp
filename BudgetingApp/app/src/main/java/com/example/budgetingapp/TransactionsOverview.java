@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -18,6 +17,7 @@ import org.xml.sax.SAXException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Objects;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -62,6 +62,8 @@ public class TransactionsOverview extends AppCompatActivity {
 
         try {
             allTransactions = readTransactions();
+            Collections.sort(allTransactions);
+            //TODO: Sort?
         } catch (Exception e) {
             e.printStackTrace();
         }
