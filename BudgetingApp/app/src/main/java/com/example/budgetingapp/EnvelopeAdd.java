@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.budgetingapp.databinding.ActivityEnvelopeEditBinding;
+
 import org.xmlpull.v1.XmlSerializer;
 
 import java.io.File;
@@ -23,7 +25,9 @@ import java.io.StringWriter;
 
 import yuku.ambilwarna.AmbilWarnaDialog;
 
-public class EnvelopeAdd extends AppCompatActivity {
+public class EnvelopeAdd extends DrawerBaseActivity {
+
+    ActivityEnvelopeEditBinding activityEnvelopeEditBinding;
 
     int envelopeColor = 0xFFFFFFFF;
     Button colorPickerButton;
@@ -33,7 +37,8 @@ public class EnvelopeAdd extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_envelope_add);
+        activityEnvelopeEditBinding = ActivityEnvelopeEditBinding.inflate(getLayoutInflater());
+        setContentView(activityEnvelopeEditBinding.getRoot());
 
         colorPickerButton = (Button) findViewById(R.id.colorPickerButton);
         colorPickerButton.setOnClickListener(new View.OnClickListener() {
