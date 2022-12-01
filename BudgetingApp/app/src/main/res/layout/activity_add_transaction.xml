@@ -7,52 +7,98 @@
     tools:context=".AddTransaction">
 
     <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="96dp"
-        android:layout_marginTop="204dp"
+        android:id="@+id/date_textview"
+        android:layout_width="80dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="205dp"
+        android:gravity="center"
         android:text="Date"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="96dp"
-        android:layout_marginTop="56dp"
+        android:id="@+id/note_textview"
+        android:layout_width="80dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="80dp"
+        android:gravity="center"
         android:text="Note"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintTop_toBottomOf="@+id/date_textview" />
 
     <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/env_textview"
+        android:layout_width="80dp"
+        android:layout_height="50dp"
         android:layout_marginStart="80dp"
-        android:layout_marginTop="56dp"
+        android:gravity="center"
         android:text="Envelope"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintTop_toBottomOf="@+id/note_textview" />
 
     <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/account_textview"
+        android:layout_width="80dp"
+        android:layout_height="50dp"
         android:layout_marginStart="80dp"
-        android:layout_marginTop="48dp"
+        android:gravity="center"
         android:text="Account"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+        app:layout_constraintTop_toBottomOf="@+id/env_textview" />
 
     <TextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="76dp"
-        android:layout_marginTop="44dp"
+        android:id="@+id/amount_textview"
+        android:layout_width="80dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="80dp"
+        android:gravity="center"
         android:text="Amount"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+        app:layout_constraintTop_toBottomOf="@+id/account_textview" />
+
+    <EditText
+        android:id="@+id/edit_note"
+        android:layout_width="210dp"
+        android:layout_height="50dp"
+        android:ems="10"
+        android:hint="Ex: Deposit, Guitar Class"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toEndOf="@+id/note_textview"
+        app:layout_constraintTop_toBottomOf="@+id/date_edit" />
+
+    <EditText
+        android:id="@+id/date_edit"
+        android:layout_width="210dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="205dp"
+        android:ems="10"
+        android:inputType="date"
+        app:layout_constraintStart_toEndOf="@+id/date_textview"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <Spinner
+        android:id="@+id/env_spinner"
+        android:layout_width="210dp"
+        android:layout_height="50dp"
+        app:layout_constraintStart_toEndOf="@+id/env_textview"
+        app:layout_constraintTop_toBottomOf="@+id/edit_note" />
+
+    <Spinner
+        android:id="@+id/account_spinner"
+        android:layout_width="210dp"
+        android:layout_height="50dp"
+        app:layout_constraintStart_toEndOf="@+id/account_textview"
+        app:layout_constraintTop_toBottomOf="@+id/env_spinner" />
+
+    <EditText
+        android:id="@+id/amount_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        app:layout_constraintStart_toEndOf="@+id/amount_textview"
+        app:layout_constraintTop_toBottomOf="@+id/account_spinner" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
