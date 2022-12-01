@@ -38,9 +38,6 @@ public class TransactionsOverview extends DrawerBaseActivity {
 
     ActivityTransactionsOverviewBinding activityTransactionsOverviewBinding;
 
-public class TransactionsOverview extends AppCompatActivity {
-
-
     Button addButton;
     ListView transactionListView;
 
