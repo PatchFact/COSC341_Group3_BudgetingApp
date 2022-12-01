@@ -8,10 +8,10 @@ public class Transaction implements Comparable<Transaction> {
     public final String color;
     public final String envelope;
 
-    Transaction(String amount, String account, String date, String note, String color, String envelope) {
+    Transaction(String amount, String date, String account, String note, String color, String envelope) {
         this.amount = amount;
-        this.account = account;
         this.date = date;
+        this.account = account;
         this.note = note;
         this.color = color;
         this.envelope = envelope;

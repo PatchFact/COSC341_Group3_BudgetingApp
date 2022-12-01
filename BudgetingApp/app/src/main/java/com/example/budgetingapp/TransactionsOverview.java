@@ -9,38 +9,18 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Objects;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 public class TransactionsOverview extends AppCompatActivity {
 
     Button addButton;
     ListView transactionListView;
-
-//    String[] amounts;
-//    String[] dates;
-//    String[] accounts;
-//    String[] notes;
-//    String[] colors;
-
-    private Document XML;
 
     ArrayList<Transaction> allTransactions = new ArrayList<>();
 
@@ -60,28 +40,12 @@ public class TransactionsOverview extends AppCompatActivity {
         });
 
         try {
-            initializeXMLDoc();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
             allTransactions = readTransactions();
             Collections.sort(allTransactions);
             //TODO: Sort?
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-//        for (int i = 0; i < allTransactions.size(); i++) {
-//            int size = allTransactions.size();
-//
-//            amounts = new String[size];
-//            dates = new String[size];
-//            accounts = new String[size];
-//            notes = new String[size];
-//            colors = new String[size];
-//        }
 
         transactionListView = findViewById(R.id.transaction_list);
 
@@ -90,83 +54,40 @@ public class TransactionsOverview extends AppCompatActivity {
         transactionListView.setAdapter(transactionAdapter);
     }
 
-    private void initializeXMLDoc() throws ParserConfigurationException, IOException, SAXException {
-        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-
-        //TODO: add try/catch
-        @SuppressLint("SdCardPath") File inputFile = new File("/data/data/com.example.budgetingapp/data.xml");
-        XML = dBuilder.parse(inputFile);
-        XML.getDocumentElement().normalize();
-    }
-
     private ArrayList<Transaction> readTransactions() {
 
-        NodeList envelopes = XML.getElementsByTagName("Envelope");
         ArrayList<Transaction> transactions = new ArrayList<>();
-
-        //Loop over each envelope
-        for (int i = 0; i < envelopes.getLength(); i++) {
-
-            Node N = envelopes.item(i);
-            Element envelope = (Element) N;
-            String env_color = envelope.getElementsByTagName("Color").item(0).getTextContent();
-            String env_name = envelope.getElementsByTagName("Name").item(0).getTextContent();
-
-            //Loop over every transaction within envelope
-            if (N.getNodeType() == Node.ELEMENT_NODE) {
-
-                //Get all transactions inside envelope
-                NodeList envelopeTransactions = envelope.getElementsByTagName("Transaction");
-
-                for (int j = 0; j < envelopeTransactions.getLength(); j++) {
-
-                    Element transaction = (Element) envelopeTransactions.item(j);
-
-                    @SuppressLint("DefaultLocale") String amount = String.format("%.2f", Double.parseDouble(transaction.getElementsByTagName("Amount").item(0).getTextContent()));
-                    String date = transaction.getElementsByTagName("Date").item(0).getTextContent();
-                    String account = transaction.getElementsByTagName("Account").item(0).getTextContent();
-                    String note = transaction.getElementsByTagName("Note").item(0).getTextContent();
-
-                    transactions.add(new Transaction(amount, account, date, note, env_color, env_name));
-                }
-            }
-        }
-
-        return transactions;
-    }
-
-    private void readData(HashMap<Integer, String> data) {
         String line;
+
         try {
-            FileInputStream fis = openFileInput("output.txt");
+            FileInputStream fis = openFileInput("myTransactions.csv");
             InputStreamReader isr = new InputStreamReader(fis);
             BufferedReader br = new BufferedReader(isr);
 
             while ((line = br.readLine()) != null) {
-                data.put((entryCount + 1), line);
-                entryCount++;
-            }
 
-            showResults(displayEntry);
+                String[] values = line.split(",[ ]*", 6);
+
+                Transaction transaction = new Transaction(
+                        values[0],
+                        values[1],
+                        values[2],
+                        values[3],
+                        values[4],
+                        values[5]
+                );
+
+                transactions.add(transaction);
+            }
 
         } catch (IOException e){
             //In case the file does not exist, let the user know and return to main screen
-            Toast.makeText(this, "Write data first!", Toast.LENGTH_SHORT).show();
-            finish();
-
+            Toast.makeText(this, "Write your first transaction!", Toast.LENGTH_SHORT).show();
 
             e.printStackTrace();
         }
-    }
 
-    private void showResults(int entryToShow) {
-        //Split the data result by comma delimiter and put into string array
-        String[] results = data.get(entryToShow).split(",[ ]*", 5);
 
-        studentIdText.setText(results[0]);
-        nameText.setText(results [2] + " " + results[1]);
-        divisionText.setText(results[4]);
-        genderText.setText(results[3]);
+        return transactions;
     }
 }

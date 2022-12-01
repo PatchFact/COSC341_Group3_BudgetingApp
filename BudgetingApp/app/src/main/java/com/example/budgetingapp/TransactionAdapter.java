@@ -43,7 +43,7 @@ public class TransactionAdapter extends ArrayAdapter<Transaction> {
 
         if (Double.parseDouble(getItem(position).getAmount()) < 0) {
             amountString = "- " + amountString;
-            txtAmount.setTextColor(Color.parseColor("#be4d25"));
+            txtAmount.setTextColor(Color.parseColor("#F3650a"));
         } else {
             txtAmount.setTextColor(Color.parseColor("#96be25"));
         }
