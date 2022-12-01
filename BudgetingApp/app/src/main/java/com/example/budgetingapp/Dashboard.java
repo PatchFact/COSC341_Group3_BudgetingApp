@@ -2,8 +2,10 @@ package com.example.budgetingapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.widget.TextView;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -14,8 +16,12 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
-import java.io.File;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 
 import java.util.ArrayList;
@@ -28,24 +34,74 @@ public class Dashboard extends AppCompatActivity {
 
     private BarChart chart;
 
+    private void createTransactionCSV() {
+        //Data being written to CSV for demo purposes only
+        String filename = "transactions.csv";
+        String[] file_content = new String[5];
+        file_content[0] = "1,Groceries,50.70,01-12-22,RBC,Save On Foods";
+        file_content[1] = "2,Groceries,32.45,25-11-22,Scotiabank,Safeway";
+        file_content[2] = "3,Transportation,80.50,25-10-22,RBC,Gas";
+        file_content[3] = "4,Transportation,60.34,16-11-22,RBC,Gas";
+        file_content[4] = "5,Transportation,71.05,29-11-22,Scotiabank,Gas";
+
+        FileOutputStream outputStream;
+        try {
+            for (int i = 0; i < file_content.length; i++) {
+                outputStream = openFileOutput(filename, Context.MODE_APPEND);
+                outputStream.write(file_content[i].getBytes());
+                outputStream.write("\n".getBytes());
+                outputStream.close();
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private void createEnvelopeCSV() {
+        //Data being written to CSV for demo purposes only
+        String filename = "envelopes.csv";
+        String[] file_content = new String[2];
+        file_content[0] = "1500,Transportation,ffabffbe";
+        file_content[1] = "500,Groceries,ffff9191";
+
+        FileOutputStream outputStream;
+        try {
+            for (int i = 0; i < file_content.length; i++) {
+                outputStream = openFileOutput(filename, Context.MODE_APPEND);
+                outputStream.write(file_content[i].getBytes());
+                outputStream.write("\n".getBytes());
+                outputStream.close();
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     private BarData createChartData(int cur_month) {
 
         ArrayList<IBarDataSet> data_sets = new ArrayList<>();
-        Scanner scan_envelopes, scan_transactions;
+        Scanner scan_envelopes = null;
+        Scanner scan_transactions = null;
 
         //Create list of envelopes
         ArrayList<String> envelope_list = new ArrayList<>();
         try {
-            File Envelopes = new File("/data/data/com.example.budgetingapp/files/Envelopes.csv");
-            scan_envelopes = new Scanner(Envelopes);
+            FileInputStream fis = openFileInput("envelopes.csv");
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader br = new BufferedReader(isr);
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (line == "")
+                    break;
+                envelope_list.add(line.split(",")[1]);
+            }
         } catch(FileNotFoundException e) {
-            return null;
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        while (scan_envelopes.hasNextLine()) {
-            String line = scan_envelopes.nextLine();
-            envelope_list.add(line.split(",")[1]);
-        }
+        Toast.makeText(this, "x", Toast.LENGTH_SHORT).show();
 
         for (int i = 0; i < envelope_list.size(); i++) {
 
@@ -57,20 +113,25 @@ public class Dashboard extends AppCompatActivity {
             //Loop over each transaction, check if it belongs to current envelope, if True add
             //transaction to array under correct month index
             try {
-                File Transactions = new File("/data/data/com.example.budgetingapp/files/Transactions.csv");
-                scan_transactions = new Scanner(Transactions);
-            } catch(FileNotFoundException e) {
-                return null;
-            }
-
-            while (scan_transactions.hasNext()) {
-                String[] line = scan_transactions.nextLine().split(",");
-                String trans_envelope = line[1];
-                if (trans_envelope.equals(envelope_list.get(i))) {
-                    int month = Integer.parseInt(line[3].substring(3, 5)) - 1;
-                    float amt = Float.parseFloat(line[2]);
-                    amounts[month] = amounts[month] + amt;
+                FileInputStream fis = openFileInput("transactions.csv");
+                InputStreamReader isr = new InputStreamReader(fis);
+                BufferedReader br = new BufferedReader(isr);
+                String line;
+                while ((line = br.readLine()) != null)  {
+                    if (line == "")
+                        break;
+                    String[] line_split = line.split(",");
+                    String trans_envelope = line_split[1];
+                    if (trans_envelope.equals(envelope_list.get(i))) {
+                        int month = Integer.parseInt(line_split[3].substring(3, 5)) - 1;
+                        float amt = Float.parseFloat(line_split[2]);
+                        amounts[month] = amounts[month] + amt;
+                    }
                 }
+            } catch(FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
 
             //Create list of bar entries for past 6 months
@@ -120,15 +181,18 @@ public class Dashboard extends AppCompatActivity {
     private double getBudget() {
         double budget = 0.0;
         try {
-            File F = new File("/data/data/com.example.budgetingapp/files/Envelopes.csv");
-            Scanner scanner = new Scanner(F);
-            while (scanner.hasNextLine()) {
-                String data = scanner.nextLine();
-                String[] values = data.split(",");
-                budget = budget + Double.parseDouble(values[0]);
+            FileInputStream fis = openFileInput("envelopes.csv");
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader br = new BufferedReader(isr);
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (line == "")
+                    break;
+                budget = budget + Double.parseDouble(line.split(",")[0]);
             }
-            scanner.close();
         } catch(FileNotFoundException e) {
+            return 0.0;
+        } catch (IOException e) {
             return 0.0;
         }
         return budget;
@@ -136,17 +200,19 @@ public class Dashboard extends AppCompatActivity {
     private double getSpent(int cur_month) {
         double spent = 0.0;
         try {
-            File F = new File("/data/data/com.example.budgetingapp/files/Transactions.csv");
-            Scanner scanner = new Scanner(F);
-            while (scanner.hasNextLine()) {
-                String data = scanner.nextLine();
-                String[] line = data.split(",");
-                int month = Integer.parseInt(line[3].substring(3,5))-1;
-                if (cur_month == month)
-                    spent = spent + Double.parseDouble(line[2]);
+            FileInputStream fis = openFileInput("transactions.csv");
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader br = new BufferedReader(isr);
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (line == "")
+                    break;
+                int month = Integer.parseInt(line.split(",")[3].substring(3,5))-1;
+                spent = spent + Double.parseDouble(line.split(",")[0]);
             }
-            scanner.close();
         } catch(FileNotFoundException e) {
+            return 0.0;
+        } catch (IOException e) {
             return 0.0;
         }
         return spent;
@@ -157,9 +223,20 @@ public class Dashboard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
+        //Check csv files exist; create if not
+        try {
+            FileInputStream fis = openFileInput("envelopes.csv");
+        } catch (FileNotFoundException e) {
+            createEnvelopeCSV();
+        }
+        try {
+            FileInputStream fis = openFileInput("transactions.csv");
+        } catch (FileNotFoundException e) {
+            createTransactionCSV();
+        }
+
         //Create chart
         chart = findViewById(R.id.barchart);
-
         BarData data = null;
         try {
             data = createChartData(11);
@@ -168,7 +245,6 @@ public class Dashboard extends AppCompatActivity {
         }
         configureChartAppearance();
         prepareChartData(data);
-
 
         //Set textView values
         Double amt_budget = getBudget();
