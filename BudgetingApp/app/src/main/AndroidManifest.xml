@@ -21,6 +21,13 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".EnvelopeAdd"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".EnvelopeEdit"
             android:exported="false">
             <meta-data
