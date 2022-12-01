@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -14,10 +15,14 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Objects;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -129,5 +134,39 @@ public class TransactionsOverview extends AppCompatActivity {
         }
 
         return transactions;
+    }
+
+    private void readData(HashMap<Integer, String> data) {
+        String line;
+        try {
+            FileInputStream fis = openFileInput("output.txt");
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader br = new BufferedReader(isr);
+
+            while ((line = br.readLine()) != null) {
+                data.put((entryCount + 1), line);
+                entryCount++;
+            }
+
+            showResults(displayEntry);
+
+        } catch (IOException e){
+            //In case the file does not exist, let the user know and return to main screen
+            Toast.makeText(this, "Write data first!", Toast.LENGTH_SHORT).show();
+            finish();
+
+
+            e.printStackTrace();
+        }
+    }
+
+    private void showResults(int entryToShow) {
+        //Split the data result by comma delimiter and put into string array
+        String[] results = data.get(entryToShow).split(",[ ]*", 5);
+
+        studentIdText.setText(results[0]);
+        nameText.setText(results [2] + " " + results[1]);
+        divisionText.setText(results[4]);
+        genderText.setText(results[3]);
     }
 }
