@@ -16,7 +16,11 @@ import android.widget.Toast;
 import java.io.FileOutputStream;
 import java.util.Objects;
 
-public class AddTransaction extends AppCompatActivity {
+import com.example.budgetingapp.databinding.ActivityAddTransactionBinding;
+
+public class AddTransaction extends DrawerBaseActivity {
+
+    ActivityAddTransactionBinding activityAddTransactionBinding;
 
     //Edit transactions (and delete)
 
@@ -32,9 +36,13 @@ public class AddTransaction extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_transaction);
+        activityAddTransactionBinding = ActivityAddTransactionBinding.inflate(getLayoutInflater());
+        setContentView(activityAddTransactionBinding.getRoot());
 
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Add Transaction");
+
+        allocateActivityTitle("Add Transaction");
+
+
 
         //Initialize
         dateEdit = findViewById(R.id.date_edit);
@@ -158,5 +166,6 @@ public class AddTransaction extends AppCompatActivity {
         }
 
         return true;
+
     }
 }

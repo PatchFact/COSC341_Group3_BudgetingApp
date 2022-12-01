@@ -9,15 +9,34 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+
+import com.example.budgetingapp.databinding.ActivityTransactionsOverviewBinding;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
+import java.io.File;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 
-public class TransactionsOverview extends AppCompatActivity {
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+public class TransactionsOverview extends DrawerBaseActivity {
+
+    ActivityTransactionsOverviewBinding activityTransactionsOverviewBinding;
 
     Button addButton;
     ListView transactionListView;
@@ -28,7 +47,8 @@ public class TransactionsOverview extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_transactions_overview);
+        activityTransactionsOverviewBinding = ActivityTransactionsOverviewBinding.inflate(getLayoutInflater());
+        setContentView(activityTransactionsOverviewBinding.getRoot());
 
         Objects.requireNonNull(getSupportActionBar()).setTitle("Transactions");
 

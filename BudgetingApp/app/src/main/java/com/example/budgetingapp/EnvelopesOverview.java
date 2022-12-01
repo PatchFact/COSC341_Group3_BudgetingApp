@@ -22,6 +22,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import com.example.budgetingapp.databinding.ActivityEnvelopesOverviewBinding;
+
+
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -34,11 +38,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class EnvelopesOverview extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class EnvelopesOverview extends DrawerBaseActivity implements AdapterView.OnItemClickListener {
+
+    ActivityEnvelopesOverviewBinding activityEnvelopesOverviewBinding;
 
     ListView lvEnvelope;
     ArrayList<String> envelopes = new ArrayList<String>();
@@ -50,8 +57,16 @@ public class EnvelopesOverview extends AppCompatActivity implements AdapterView.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        activityEnvelopesOverviewBinding = ActivityEnvelopesOverviewBinding.inflate(getLayoutInflater());
+        setContentView(activityEnvelopesOverviewBinding.getRoot());
+
+        allocateActivityTitle("Envelopes Overview");
+
+
         setContentView(R.layout.activity_envelopes_overview);
         readEnvelopes();
+
         lvEnvelope = findViewById(R.id.lvEnvelope);
         ArrayAdapter<String> envelopeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, envelopes);
         lvEnvelope.setAdapter(new MyListAdapter(this, R.layout.list_item, envelopes));

@@ -19,7 +19,11 @@ import java.io.InputStreamReader;
 
 import yuku.ambilwarna.AmbilWarnaDialog;
 
-public class EnvelopeEdit extends AppCompatActivity {
+import com.example.budgetingapp.databinding.ActivityEnvelopeEditBinding;
+
+public class EnvelopeEdit extends DrawerBaseActivity {
+
+    ActivityEnvelopeEditBinding activityEnvelopeEditBinding;
 
     int envelopeColor = 0xFFFFFFFF;
     Button colorPickerButton;
@@ -31,6 +35,12 @@ public class EnvelopeEdit extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        activityEnvelopeEditBinding = ActivityEnvelopeEditBinding.inflate(getLayoutInflater());
+        setContentView(activityEnvelopeEditBinding.getRoot());
+
+        allocateActivityTitle("Envelope Edit");
+
         setContentView(R.layout.activity_envelope_edit);
 
         Intent intent = getIntent();
@@ -114,6 +124,7 @@ public class EnvelopeEdit extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
 
 
     }
