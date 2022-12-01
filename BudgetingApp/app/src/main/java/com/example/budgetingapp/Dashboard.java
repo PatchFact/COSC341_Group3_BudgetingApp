@@ -7,6 +7,7 @@ import android.widget.TextView;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.example.budgetingapp.databinding.ActivityDashboardBinding;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -26,7 +27,9 @@ import java.util.Scanner;
 
 import java.util.ArrayList;
 
-public class Dashboard extends AppCompatActivity {
+public class Dashboard extends DrawerBaseActivity {
+
+    ActivityDashboardBinding activityDashboardBinding;
 
     private static final float BAR_SPACE = 0.05f;
     private static final float BAR_WIDTH = 0.15f;
@@ -221,7 +224,8 @@ public class Dashboard extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dashboard);
+        activityDashboardBinding = ActivityDashboardBinding.inflate(getLayoutInflater());
+        setContentView(activityDashboardBinding.getRoot());
 
         //Check csv files exist; create if not
         try {
