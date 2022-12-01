@@ -29,11 +29,11 @@
 
     <TextView
         android:id="@+id/list_header"
-        android:layout_width="408dp"
+        android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="100dp"
         android:gravity="center_vertical"
-        android:text="Date            Note                   Envelope           Account        Amount"
+        android:text="Date           Note                Envelope         Account        Amount"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/transaction_list"
         app:layout_constraintEnd_toEndOf="parent"

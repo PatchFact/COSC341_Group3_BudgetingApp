@@ -48,7 +48,7 @@ public class TransactionAdapter extends ArrayAdapter<Transaction> {
             txtAmount.setTextColor(Color.parseColor("#96be25"));
         }
 
-        String colorString = getItem(position).getColor().replace("#", "#33");
+        String colorString = getItem(position).getColor().replace("#", "#88");
         convertView.setBackgroundColor(Color.parseColor(colorString));
 
 
