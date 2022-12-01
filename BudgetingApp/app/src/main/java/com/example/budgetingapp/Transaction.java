@@ -1,21 +1,23 @@
 package com.example.budgetingapp;
 
 public class Transaction {
-    public final double amount;
+    public final String amount;
     public final String date;
     public final String account;
     public final String note;
     public final String color;
+    public final String envelope;
 
-    Transaction(double amount, String account, String date, String note, String color) {
+    Transaction(String amount, String account, String date, String note, String color, String envelope) {
         this.amount = amount;
         this.account = account;
         this.date = date;
         this.note = note;
         this.color = color;
+        this.envelope = envelope;
     }
 
-    public double getAmount() {
+    public String getAmount() {
         return amount;
     }
 
@@ -33,5 +35,9 @@ public class Transaction {
 
     public String getColor() {
         return color;
+    }
+
+    public String getEnvelope() {
+        return envelope;
     }
 }

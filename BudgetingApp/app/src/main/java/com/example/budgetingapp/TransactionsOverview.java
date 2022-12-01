@@ -3,7 +3,6 @@ package com.example.budgetingapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
-import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -19,7 +18,6 @@ import org.xml.sax.SAXException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -31,15 +29,15 @@ public class TransactionsOverview extends AppCompatActivity {
     Button addButton;
     ListView transactionListView;
 
-    double[] amounts;
-    String[] dates;
-    String[] accounts;
-    String[] notes;
-    String[] colors;
+//    String[] amounts;
+//    String[] dates;
+//    String[] accounts;
+//    String[] notes;
+//    String[] colors;
 
     private Document XML;
 
-    List<Transaction> allTransactions = new ArrayList<>();
+    ArrayList<Transaction> allTransactions = new ArrayList<>();
 
     @SuppressLint("DefaultLocale")
     @Override
@@ -68,20 +66,23 @@ public class TransactionsOverview extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        for (int i = 0; i < allTransactions.size(); i++) {
-            int size = allTransactions.size();
-
-            amounts = new double[size];
-            dates = new String[size];
-            accounts = new String[size];
-            notes = new String[size];
-            colors = new String[size];
-        }
+//        for (int i = 0; i < allTransactions.size(); i++) {
+//            int size = allTransactions.size();
+//
+//            amounts = new String[size];
+//            dates = new String[size];
+//            accounts = new String[size];
+//            notes = new String[size];
+//            colors = new String[size];
+//        }
 
         transactionListView = findViewById(R.id.transaction_list);
 
+        TransactionAdapter transactionAdapter = new TransactionAdapter(this, R.layout.row_layout_transaction, allTransactions);
 
-        Toast.makeText(this, "" + String.format("%.2f", allTransactions.get(0).amount), Toast.LENGTH_SHORT).show();
+        transactionListView.setAdapter(transactionAdapter);
+
+        Toast.makeText(this, "" + allTransactions.get(0).amount, Toast.LENGTH_SHORT).show();
     }
 
     private void initializeXMLDoc() throws ParserConfigurationException, IOException, SAXException {
@@ -94,10 +95,10 @@ public class TransactionsOverview extends AppCompatActivity {
         XML.getDocumentElement().normalize();
     }
 
-    private List<Transaction> readTransactions() throws Exception {
+    private ArrayList<Transaction> readTransactions() {
 
         NodeList envelopes = XML.getElementsByTagName("Envelope");
-        List<Transaction> transactions = new ArrayList<>();
+        ArrayList<Transaction> transactions = new ArrayList<>();
 
         //Loop over each envelope
         for (int i = 0; i < envelopes.getLength(); i++) {
@@ -105,6 +106,7 @@ public class TransactionsOverview extends AppCompatActivity {
             Node N = envelopes.item(i);
             Element envelope = (Element) N;
             String env_color = envelope.getElementsByTagName("Color").item(0).getTextContent();
+            String env_name = envelope.getElementsByTagName("Name").item(0).getTextContent();
 
             //Loop over every transaction within envelope
             if (N.getNodeType() == Node.ELEMENT_NODE) {
@@ -116,20 +118,16 @@ public class TransactionsOverview extends AppCompatActivity {
 
                     Element transaction = (Element) envelopeTransactions.item(j);
 
-                    double amount = Double.parseDouble(transaction.getElementsByTagName("Amount").item(0).getTextContent());
+                    @SuppressLint("DefaultLocale") String amount = String.format("%.2f", Double.parseDouble(transaction.getElementsByTagName("Amount").item(0).getTextContent()));
                     String date = transaction.getElementsByTagName("Date").item(0).getTextContent();
                     String account = transaction.getElementsByTagName("Account").item(0).getTextContent();
                     String note = transaction.getElementsByTagName("Note").item(0).getTextContent();
 
-                    transactions.add(new Transaction(amount, account, date, note, env_color));
+                    transactions.add(new Transaction(amount, account, date, note, env_color, env_name));
                 }
             }
         }
 
         return transactions;
-    }
-
-    public class CustomListView extends ListActivity {
-
     }
 }
