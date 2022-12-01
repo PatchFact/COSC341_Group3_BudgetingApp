@@ -30,7 +30,13 @@ import javax.xml.parsers.ParserConfigurationException;
 
 public class MainActivity extends DrawerBaseActivity {
 
+
     ActivityMainBinding activityMainBinding;
+
+    Button transaction_button;
+    Button envelope_button;
+    Button dashboard_button;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +45,32 @@ public class MainActivity extends DrawerBaseActivity {
         setContentView(activityMainBinding.getRoot());
         allocateActivityTitle("Dashboard");
 
+
+
+
+                startActivity(intent);
+            }
+        });
+
+        envelope_button = findViewById(R.id.envelope_button);
+        envelope_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, EnvelopesOverview.class);
+
+                startActivity(intent);
+            }
+        });
+        
+        dashboard_button = findViewById(R.id.dashboard_button);
+        dashboard_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Dashboard.class);
+
+                startActivity(intent);
+            }
+        });
 
     }
 }
