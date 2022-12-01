@@ -2,7 +2,7 @@
 
 ## TODO
 
-- [ ] Dashboard - Rev
+- [x] Dashboard - Rev
 - [x] Envelopes - Brock
 - [ ] Acccounts - Erfan
 - [ ] Transactions - Esteban
