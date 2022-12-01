@@ -3,11 +3,11 @@ package com.example.budgetingapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import org.w3c.dom.Document;
@@ -29,28 +29,15 @@ import javax.xml.parsers.ParserConfigurationException;
 public class TransactionsOverview extends AppCompatActivity {
 
     Button addButton;
-    TextView amount1;
-    TextView amount2;
-    TextView amount3;
-    TextView amount4;
+    ListView transactionListView;
+
+    double[] amounts;
+    String[] dates;
+    String[] accounts;
+    String[] notes;
+    String[] colors;
 
     private Document XML;
-
-    public static class Transaction {
-        public final double amount;
-        public final String date;
-        public final String account;
-        public final String note;
-        public final String color;
-
-        private Transaction(double amount, String account, String date, String note, String color) {
-            this.amount = amount;
-            this.account = account;
-            this.date = date;
-            this.note = note;
-            this.color = color;
-        }
-    }
 
     List<Transaction> allTransactions = new ArrayList<>();
 
@@ -81,19 +68,20 @@ public class TransactionsOverview extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        amount1 = findViewById(R.id.amount1);
-        amount2 = findViewById(R.id.amount2);
-        amount3 = findViewById(R.id.amount3);
-        amount4 = findViewById(R.id.amount4);
+        for (int i = 0; i < allTransactions.size(); i++) {
+            int size = allTransactions.size();
+
+            amounts = new double[size];
+            dates = new String[size];
+            accounts = new String[size];
+            notes = new String[size];
+            colors = new String[size];
+        }
+
+        transactionListView = findViewById(R.id.transaction_list);
 
 
         Toast.makeText(this, "" + String.format("%.2f", allTransactions.get(0).amount), Toast.LENGTH_SHORT).show();
-
-        amount1.setText(String.format("%.2f", allTransactions.get(0).amount) + allTransactions.get(0).color);
-        amount2.setText(String.format("%.2f", allTransactions.get(1).amount) + allTransactions.get(1).color);
-        amount3.setText(String.format("%.2f", allTransactions.get(2).amount) + allTransactions.get(2).color);
-        amount4.setText(String.format("%.2f", allTransactions.get(3).amount) + allTransactions.get(3).color);
-
     }
 
     private void initializeXMLDoc() throws ParserConfigurationException, IOException, SAXException {
@@ -139,5 +127,9 @@ public class TransactionsOverview extends AppCompatActivity {
         }
 
         return transactions;
+    }
+
+    public class CustomListView extends ListActivity {
+
     }
 }
