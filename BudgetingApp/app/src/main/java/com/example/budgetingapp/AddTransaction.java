@@ -4,13 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class AddTransaction extends AppCompatActivity {
+import com.example.budgetingapp.databinding.ActivityAddTransactionBinding;
 
+public class AddTransaction extends DrawerBaseActivity {
+
+    ActivityAddTransactionBinding activityAddTransactionBinding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_transaction);
+        activityAddTransactionBinding = ActivityAddTransactionBinding.inflate(getLayoutInflater());
+        setContentView(activityAddTransactionBinding.getRoot());
 
-        getSupportActionBar().setTitle("Add Transaction");
+        allocateActivityTitle("Add Transaction");
     }
 }

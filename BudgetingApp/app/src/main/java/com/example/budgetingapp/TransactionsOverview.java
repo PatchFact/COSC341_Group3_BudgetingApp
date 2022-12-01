@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.budgetingapp.databinding.ActivityTransactionsOverviewBinding;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -26,7 +28,9 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-public class TransactionsOverview extends AppCompatActivity {
+public class TransactionsOverview extends DrawerBaseActivity {
+
+    ActivityTransactionsOverviewBinding activityTransactionsOverviewBinding;
 
     Button addButton;
     TextView amount1;
@@ -58,7 +62,8 @@ public class TransactionsOverview extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_transactions_overview);
+        activityTransactionsOverviewBinding = ActivityTransactionsOverviewBinding.inflate(getLayoutInflater());
+        setContentView(activityTransactionsOverviewBinding.getRoot());
 
         Objects.requireNonNull(getSupportActionBar()).setTitle("Transactions");
 

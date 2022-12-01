@@ -14,10 +14,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.budgetingapp.databinding.ActivityEnvelopesOverviewBinding;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class EnvelopesOverview extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class EnvelopesOverview extends DrawerBaseActivity implements AdapterView.OnItemClickListener {
+
+    ActivityEnvelopesOverviewBinding activityEnvelopesOverviewBinding;
 
     ListView lvEnvelope;
     ArrayList<String> envelopes = new ArrayList<String>();
@@ -27,7 +31,10 @@ public class EnvelopesOverview extends AppCompatActivity implements AdapterView.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_envelopes_overview);
+        activityEnvelopesOverviewBinding = ActivityEnvelopesOverviewBinding.inflate(getLayoutInflater());
+        setContentView(activityEnvelopesOverviewBinding.getRoot());
+
+        allocateActivityTitle("Envelopes Overview");
 
         lvEnvelope = findViewById(R.id.lvEnvelope);
         generateListContent();
