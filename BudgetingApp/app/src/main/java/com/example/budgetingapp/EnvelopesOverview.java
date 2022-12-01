@@ -98,7 +98,7 @@ public class EnvelopesOverview extends AppCompatActivity implements AdapterView.
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         String envelope = parent.getItemAtPosition(position).toString();
-        Toast.makeText(getApplicationContext(), "Clicked: " + envelope, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), "Clicked: " + envelope, Toast.LENGTH_SHORT).show();
     }
 
     //Create custom list adapter to fit custom list items in ListView
@@ -143,7 +143,7 @@ public class EnvelopesOverview extends AppCompatActivity implements AdapterView.
             mainViewHolder.edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(getContext(), "Edit button was clicked for list item " + position, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), "Edit button was clicked for list item " + position, Toast.LENGTH_SHORT).show();
 
 
                     Intent intent = new Intent(EnvelopesOverview.this, EnvelopeEdit.class);
@@ -162,7 +162,7 @@ public class EnvelopesOverview extends AppCompatActivity implements AdapterView.
             mainViewHolder.delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(getContext(), "Delete button was clicked for list item " + position, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), "Delete button was clicked for list item " + position, Toast.LENGTH_SHORT).show();
 
                     showDeleteDialog((String) finalMainViewHolder.name.getText());
                 }

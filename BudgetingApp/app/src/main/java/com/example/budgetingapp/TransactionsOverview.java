@@ -81,8 +81,6 @@ public class TransactionsOverview extends AppCompatActivity {
         TransactionAdapter transactionAdapter = new TransactionAdapter(this, R.layout.row_layout_transaction, allTransactions);
 
         transactionListView.setAdapter(transactionAdapter);
-
-        Toast.makeText(this, "" + allTransactions.get(0).amount, Toast.LENGTH_SHORT).show();
     }
 
     private void initializeXMLDoc() throws ParserConfigurationException, IOException, SAXException {
