@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     Button transaction_button;
     Button envelope_button;
+    Button dashboard_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, EnvelopesOverview.class);
+
+                startActivity(intent);
+            }
+        });
+        
+        dashboard_button = findViewById(R.id.dashboard_button);
+        dashboard_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Dashboard.class);
 
                 startActivity(intent);
             }
