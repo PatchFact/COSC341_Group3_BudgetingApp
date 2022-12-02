@@ -71,6 +71,14 @@ public class EnvelopesOverview extends DrawerBaseActivity implements AdapterView
         ArrayAdapter<String> envelopeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, envelopes);
         lvEnvelope.setAdapter(new MyListAdapter(this, R.layout.list_item, envelopes));
 
+        showReportsButton = findViewById(R.id.envelopeReportButton);
+        showReportsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(EnvelopesOverview.this, reports_activity.class);
+                startActivity(intent);
+            }
+        });
         addEnvelopeButton = findViewById(R.id.addEnvelopeButton);
         addEnvelopeButton.setOnClickListener(new View.OnClickListener() {
             @Override
