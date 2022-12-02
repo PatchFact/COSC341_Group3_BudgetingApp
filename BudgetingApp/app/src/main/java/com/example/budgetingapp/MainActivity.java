@@ -41,6 +41,14 @@ public class MainActivity extends DrawerBaseActivity {
         setContentView(activityMainBinding.getRoot());
         allocateActivityTitle("Dashboard");
 
+        Button reports = findViewById(R.id.button3);
+        reports.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, reports_activity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 }
