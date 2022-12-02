@@ -19,5 +19,20 @@
         <item>RBC</item>
         <item>Scotiabank</item>
     </string-array>
+
+    <string-array name="Envelopes">
+        <item>Transportation</item>
+        <item>Groceries</item>
+    </string-array>
+
+    <string-array name="Accounts">
+        <item>RBC</item>
+        <item>ScotiaBank</item>
+    </string-array>
+
+    <string-array name="Months">
+        <item>November</item>
+        <item>December</item>
+    </string-array>
 </resources>
 
