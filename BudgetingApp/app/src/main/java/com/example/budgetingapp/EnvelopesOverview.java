@@ -22,6 +22,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import com.example.budgetingapp.databinding.ActivityEnvelopesOverviewBinding;
+
+
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -34,11 +38,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class EnvelopesOverview extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class EnvelopesOverview extends DrawerBaseActivity implements AdapterView.OnItemClickListener {
+
+    ActivityEnvelopesOverviewBinding activityEnvelopesOverviewBinding;
 
     ListView lvEnvelope;
     ArrayList<String> envelopes = new ArrayList<String>();
@@ -50,12 +57,28 @@ public class EnvelopesOverview extends AppCompatActivity implements AdapterView.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        activityEnvelopesOverviewBinding = ActivityEnvelopesOverviewBinding.inflate(getLayoutInflater());
+        setContentView(activityEnvelopesOverviewBinding.getRoot());
+
+        allocateActivityTitle("Envelopes Overview");
+
+
         setContentView(R.layout.activity_envelopes_overview);
         readEnvelopes();
+
         lvEnvelope = findViewById(R.id.lvEnvelope);
         ArrayAdapter<String> envelopeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, envelopes);
         lvEnvelope.setAdapter(new MyListAdapter(this, R.layout.list_item, envelopes));
 
+        showReportsButton = findViewById(R.id.envelopeReportButton);
+        showReportsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(EnvelopesOverview.this, reports_activity.class);
+                startActivity(intent);
+            }
+        });
         addEnvelopeButton = findViewById(R.id.addEnvelopeButton);
         addEnvelopeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,7 +121,7 @@ public class EnvelopesOverview extends AppCompatActivity implements AdapterView.
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         String envelope = parent.getItemAtPosition(position).toString();
-        Toast.makeText(getApplicationContext(), "Clicked: " + envelope, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), "Clicked: " + envelope, Toast.LENGTH_SHORT).show();
     }
 
     //Create custom list adapter to fit custom list items in ListView
@@ -143,7 +166,7 @@ public class EnvelopesOverview extends AppCompatActivity implements AdapterView.
             mainViewHolder.edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(getContext(), "Edit button was clicked for list item " + position, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), "Edit button was clicked for list item " + position, Toast.LENGTH_SHORT).show();
 
 
                     Intent intent = new Intent(EnvelopesOverview.this, EnvelopeEdit.class);
@@ -162,7 +185,7 @@ public class EnvelopesOverview extends AppCompatActivity implements AdapterView.
             mainViewHolder.delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(getContext(), "Delete button was clicked for list item " + position, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), "Delete button was clicked for list item " + position, Toast.LENGTH_SHORT).show();
 
                     showDeleteDialog((String) finalMainViewHolder.name.getText());
                 }

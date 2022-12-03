@@ -16,6 +16,7 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -261,6 +262,5 @@ public class MainActivity extends DrawerBaseActivity {
         txt_budget.setText("$" + String.format("%,.2f", amt_budget) + " Budget");
         txt_spent.setText("$" + String.format("%,.2f", amt_spent) + " Spent");
         txt_remaining.setText("$" + String.format("%,.2f", amt_left) + " Remaining");
-
     }
 }
