@@ -43,8 +43,9 @@ public class DrawerBaseActivity extends AppCompatActivity implements NavigationV
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nav_dashboard:
-                Intent intent = new Intent(this,MainActivity.class);
+                Intent intent = new Intent(this,Dashboard.class);
                 overridePendingTransition(0, 0);
+                startActivity(intent);
                 break;
             case R.id.nav_transaction:
                 Intent intent1 = new Intent(this,TransactionsOverview.class);
