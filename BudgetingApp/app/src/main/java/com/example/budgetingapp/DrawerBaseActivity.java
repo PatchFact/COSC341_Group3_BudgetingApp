@@ -43,7 +43,7 @@ public class DrawerBaseActivity extends AppCompatActivity implements NavigationV
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nav_dashboard:
-                Intent intent = new Intent(this,MainActivity.class);
+                Intent intent = new Intent(this,Dashboard.class);
                 overridePendingTransition(0, 0);
                 startActivity(intent);
                 break;
@@ -63,7 +63,7 @@ public class DrawerBaseActivity extends AppCompatActivity implements NavigationV
                 startActivity(intent3);
                 break;
             case R.id.nav_report:
-                Intent intent4 = new Intent(this, reports_activity.class);
+                Intent intent4 = new Intent(this, reports.class);
                 overridePendingTransition(0, 0);
                 startActivity(intent4);
                 break;
