@@ -22,7 +22,7 @@ public class AddTransaction extends DrawerBaseActivity {
 
     ActivityAddTransactionBinding activityAddTransactionBinding;
 
-    //Edit transactions (and delete)
+    boolean editing = false;
 
     boolean checksPassed = false;
 
@@ -39,10 +39,14 @@ public class AddTransaction extends DrawerBaseActivity {
         activityAddTransactionBinding = ActivityAddTransactionBinding.inflate(getLayoutInflater());
         setContentView(activityAddTransactionBinding.getRoot());
 
-
         allocateActivityTitle("Add Transaction");
 
+        //Check if we are editing
+        Intent intent = this.getIntent();
 
+        if (intent != null) {
+            Toast.makeText(this, "Editing!", Toast.LENGTH_SHORT).show();
+        }
 
         //Initialize
         dateEdit = findViewById(R.id.date_edit);
@@ -114,8 +118,8 @@ public class AddTransaction extends DrawerBaseActivity {
                     e.printStackTrace();
                 }
 
-                Intent intent = new Intent(AddTransaction.this, TransactionsOverview.class);
-                startActivity(intent);
+                Intent i = new Intent(AddTransaction.this, TransactionsOverview.class);
+                startActivity(i);
             }
         });
     }
