@@ -74,10 +74,13 @@ public class TransactionsOverview extends DrawerBaseActivity {
                 i.putExtra("note", allTransactions.get(position).getNote());
                 i.putExtra("color", allTransactions.get(position).getColor());
                 i.putExtra("envelope", allTransactions.get(position).getEnvelope());
+                i.putExtra("position", position);
 
                 startActivity(i);
             }
         });
+
+        Toast.makeText(this, "I made it here!", Toast.LENGTH_SHORT).show();
     }
 
     private ArrayList<Transaction> readTransactions() {
