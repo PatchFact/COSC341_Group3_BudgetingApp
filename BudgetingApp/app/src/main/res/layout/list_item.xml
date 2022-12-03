@@ -7,10 +7,10 @@
 
     <TextView
         android:id="@+id/envelopeName"
-        android:layout_width="144dp"
+        android:layout_width="112dp"
         android:layout_height="wrap_content"
         android:text="TextView"
-        android:textSize="20sp" />
+        android:textSize="16sp" />
 
     <ImageView
         android:id="@+id/editImg"
@@ -32,11 +32,20 @@
 
     <TextView
         android:id="@+id/envelopeBudget"
-        android:layout_width="130dp"
+        android:layout_width="77dp"
         android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/envelopeName"
-        android:layout_marginEnd="-129dp"
+        android:layout_marginEnd="-172dp"
         android:text="TextView"
-        android:textSize="20sp" />
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/envelopeAmount"
+        android:layout_width="94dp"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/envelopeName"
+        android:layout_marginEnd="-94dp"
+        android:text="TextView"
+        android:textSize="16sp" />
 
 </RelativeLayout>
