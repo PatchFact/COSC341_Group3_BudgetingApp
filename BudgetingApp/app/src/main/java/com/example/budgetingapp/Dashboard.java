@@ -191,7 +191,9 @@ public class Dashboard extends DrawerBaseActivity {
             while ((line = br.readLine()) != null) {
                 if (line == "")
                     break;
-                budget = budget + Double.parseDouble(line.split(",")[0]);
+
+                //TODO: This line crashes the app
+//                budget = budget + Double.parseDouble(line.split(",")[0]);
             }
         } catch(FileNotFoundException e) {
             return 0.0;
