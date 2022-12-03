@@ -3,7 +3,9 @@
 ## TODO
 
 - [x] Dashboard - Rev
+  - [x] Route to dashboard
 - [x] Envelopes - Brock
+  - [x] Read in transactions (total balance)
 - [ ] Acccounts - Erfan
 - [ ] Transactions - Esteban
   - [x] Read transactions
@@ -11,12 +13,10 @@
     - [ ] Better Date picker
     - [ ] Better Amount picker
   - [ ] Edit/Delete transaction
-- [ ] Reports - Rommel
+- [x] Reports - Rommel
 
-## XML Struture
-
-- Transactions {TransactionId (PK), EnvelopeId, Date, Note, Account, Amount} EnvelopeId is FK to Envelopes
-- Envelopes {EnvelopeId (PK), Budget, Name, Color}
+- [ ] Menu
+  - [ ] Drawer not showing up on some activities
 
 ## Further Evaluation
 
