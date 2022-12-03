@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.example.budgetingapp.databinding.ActivityDashboardBinding;
+import com.example.budgetingapp.databinding.ActivityMainBinding;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -23,6 +24,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Objects;
 import java.util.Scanner;
 
 import java.util.ArrayList;
@@ -103,8 +105,6 @@ public class Dashboard extends DrawerBaseActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        Toast.makeText(this, "x", Toast.LENGTH_SHORT).show();
 
         for (int i = 0; i < envelope_list.size(); i++) {
 
@@ -191,9 +191,8 @@ public class Dashboard extends DrawerBaseActivity {
             while ((line = br.readLine()) != null) {
                 if (line == "")
                     break;
-
-                //TODO: This line crashes the app
-//                budget = budget + Double.parseDouble(line.split(",")[0]);
+                
+                budget = budget + Double.parseDouble(line.split(",")[0]);
             }
         } catch(FileNotFoundException e) {
             return 0.0;
@@ -228,6 +227,7 @@ public class Dashboard extends DrawerBaseActivity {
         super.onCreate(savedInstanceState);
         activityDashboardBinding = ActivityDashboardBinding.inflate(getLayoutInflater());
         setContentView(activityDashboardBinding.getRoot());
+        allocateActivityTitle("Dashboard");
 
         //Check csv files exist; create if not
         try {
