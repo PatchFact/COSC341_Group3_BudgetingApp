@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -39,6 +40,7 @@ public class AddTransaction extends DrawerBaseActivity {
     CheckBox incomeCheck;
     Spinner env_spinner, account_spinner;
     Button submitButton;
+    Button deleteButton;
     //TODO: change the date edit to something good
     //TODO: limit amount add to 2 decimal places (currency input)
     EditText dateEdit, noteEdit, amountEdit;
@@ -51,11 +53,13 @@ public class AddTransaction extends DrawerBaseActivity {
 
         allocateActivityTitle("Add Transaction");
 
-        //Check if we are editing
+
         Intent intent = this.getIntent();
 
+        //Check if we are editing
         if (intent.hasExtra("date")) {
             editing = true;
+
             Toast.makeText(this, "Editing!", Toast.LENGTH_SHORT).show();
             allocateActivityTitle("Edit transaction");
         }
@@ -111,6 +115,18 @@ public class AddTransaction extends DrawerBaseActivity {
 
             //Set transaction position for data submission
             transactionPosition = bundle.getInt("position");
+        }
+
+        //Button to delete data in editing mode
+        if (editing) {
+            deleteButton = findViewById(R.id.delete_button);
+            //Make delete button visible
+            deleteButton.setVisibility(View.VISIBLE);
+            deleteButton.setOnClickListener(v -> {
+                deleteRecord(transactionPosition);
+                Intent i = new Intent(AddTransaction.this, TransactionsOverview.class);
+                startActivity(i);
+            });
         }
 
         //Button to submit data and write to file
