@@ -225,8 +225,6 @@ public class MainActivity extends DrawerBaseActivity {
         setContentView(activityMainBinding.getRoot());
         allocateActivityTitle("Dashboard");
 
-        ActivityDashboardBinding activityDashboardBinding;
-
         //Check csv files exist; create if not
         try {
             FileInputStream fis = openFileInput("envelopes.csv");
