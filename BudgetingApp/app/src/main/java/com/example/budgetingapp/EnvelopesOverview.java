@@ -144,6 +144,7 @@ public class EnvelopesOverview extends DrawerBaseActivity implements AdapterView
                 ViewHolder viewHolder = new ViewHolder();
                 viewHolder.name = (TextView) convertView.findViewById(R.id.envelopeName);
                 viewHolder.budget = (TextView) convertView.findViewById(R.id.envelopeBudget);
+                viewHolder.amount = (TextView) convertView.findViewById(R.id.envelopeAmount);
                 viewHolder.edit = (ImageView) convertView.findViewById(R.id.editImg);
                 viewHolder.delete = (ImageView) convertView.findViewById(R.id.deleteImg);
 
@@ -158,6 +159,7 @@ public class EnvelopesOverview extends DrawerBaseActivity implements AdapterView
             // Set contents of name and budget
             mainViewHolder.name.setText(contents[0]);
             mainViewHolder.budget.setText(contents[1]);
+            mainViewHolder.amount.setText(String.format("%.2f",getEnvelopeAmount(contents[0])));
             mainViewHolder.color = contents[2];
 
 
@@ -193,6 +195,33 @@ public class EnvelopesOverview extends DrawerBaseActivity implements AdapterView
 
             return convertView;
         }
+    }
+
+    private double getEnvelopeAmount(String name) {
+        double total = 0;
+        try {
+            String line = "";
+            FileInputStream fis = null;
+            fis = openFileInput("myTransactions.csv");
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader br = new BufferedReader(isr);
+            while ((line = br.readLine()) != null) {
+                if(line.contains(name)) {
+                    String[] values = line.split(",");
+                    total += Double.parseDouble(values[0]);
+                }
+            }
+            //fis.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // awful way of removing -0.00 from the interface
+        if(total == 0)
+            return (total);
+        else
+            return (-total);
     }
 
     void showDeleteDialog(String name) {
@@ -254,6 +283,7 @@ public class EnvelopesOverview extends DrawerBaseActivity implements AdapterView
         ImageView delete;
         TextView name;
         TextView budget;
+        TextView amount;
         String color;
 
     }
