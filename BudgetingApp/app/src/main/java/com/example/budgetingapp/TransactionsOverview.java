@@ -1,24 +1,16 @@
 package com.example.budgetingapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
 
 import com.example.budgetingapp.databinding.ActivityTransactionsOverviewBinding;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-
-import java.io.File;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -28,11 +20,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
-
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 public class TransactionsOverview extends DrawerBaseActivity {
 
@@ -72,6 +59,26 @@ public class TransactionsOverview extends DrawerBaseActivity {
         TransactionAdapter transactionAdapter = new TransactionAdapter(this, R.layout.row_layout_transaction, allTransactions);
 
         transactionListView.setAdapter(transactionAdapter);
+
+        transactionListView.setClickable(true);
+        transactionListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent i = new Intent(TransactionsOverview.this, AddTransaction.class);
+
+                i.putExtra("amount", allTransactions.get(position).getAmount());
+                i.putExtra("date", allTransactions.get(position).getDate());
+                i.putExtra("account", allTransactions.get(position).getAccount());
+                i.putExtra("note", allTransactions.get(position).getNote());
+                i.putExtra("color", allTransactions.get(position).getColor());
+                i.putExtra("envelope", allTransactions.get(position).getEnvelope());
+                i.putExtra("position", position);
+
+                startActivity(i);
+            }
+        });
+
+        Toast.makeText(this, "I made it here!", Toast.LENGTH_SHORT).show();
     }
 
     private ArrayList<Transaction> readTransactions() {
