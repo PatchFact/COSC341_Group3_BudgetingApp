@@ -7,12 +7,12 @@
 - [x] Envelopes - Brock
   - [x] Read in transactions (total balance)
 - [ ] Acccounts - Erfan
-- [ ] Transactions - Esteban
+- [x] Transactions - Esteban
   - [x] Read transactions
   - [x] Write transaction
     - [ ] Better Date picker
     - [ ] Better Amount picker
-  - [ ] Edit/Delete transaction
+  - [x] Edit/Delete transaction
 - [x] Reports - Rommel
 
 - [ ] Menu
