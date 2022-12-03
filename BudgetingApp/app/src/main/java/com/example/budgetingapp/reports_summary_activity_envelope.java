@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.budgetingapp.databinding.ActivityReportsSummaryEnvelopeBinding;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
@@ -39,7 +40,10 @@ import java.util.ArrayList;
 //implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0' paste into dependencies -> build.gradle (app)
 //sync gradle
 
-public class reports_summary_activity_envelope extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class reports_summary_activity_envelope extends DrawerBaseActivity implements AdapterView.OnItemSelectedListener {
+
+    ActivityReportsSummaryEnvelopeBinding activityReportsSummaryEnvelopeBinding;
+
     public PieChart pieChart;
     public BarChart barChart;
     public ArrayList<String[]> split = new ArrayList<>();
@@ -47,7 +51,8 @@ public class reports_summary_activity_envelope extends AppCompatActivity impleme
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reports_summary_envelope);
+        activityReportsSummaryEnvelopeBinding = ActivityReportsSummaryEnvelopeBinding.inflate(getLayoutInflater());
+        setContentView(activityReportsSummaryEnvelopeBinding.getRoot());
 
         Intent intent = getIntent();
         int viewTypeNum = intent.getIntExtra("summaryType",0);
