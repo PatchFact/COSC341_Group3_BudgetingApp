@@ -77,8 +77,6 @@ public class TransactionsOverview extends DrawerBaseActivity {
                 startActivity(i);
             }
         });
-
-        Toast.makeText(this, "I made it here!", Toast.LENGTH_SHORT).show();
     }
 
     private ArrayList<Transaction> readTransactions() {
