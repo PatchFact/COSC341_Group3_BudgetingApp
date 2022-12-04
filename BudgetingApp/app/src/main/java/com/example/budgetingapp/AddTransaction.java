@@ -60,7 +60,6 @@ public class AddTransaction extends DrawerBaseActivity {
         if (intent.hasExtra("date")) {
             editing = true;
 
-            Toast.makeText(this, "Editing!", Toast.LENGTH_SHORT).show();
             allocateActivityTitle("Edit transaction");
         }
 
@@ -131,6 +130,9 @@ public class AddTransaction extends DrawerBaseActivity {
 
         //Button to submit data and write to file
         submitButton = findViewById(R.id.add_transaction_button);
+//        if (editing) {
+//            submitButton.setText("Done");
+//        }
         submitButton.setOnClickListener(v -> {
 
             //Validate
