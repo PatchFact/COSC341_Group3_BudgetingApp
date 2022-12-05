@@ -63,7 +63,7 @@ public class DrawerBaseActivity extends AppCompatActivity implements NavigationV
                 startActivity(intent3);
                 break;
             case R.id.nav_report:
-                Intent intent4 = new Intent(this, reports_activity.class);
+                Intent intent4 = new Intent(this, reports.class);
                 overridePendingTransition(0, 0);
                 startActivity(intent4);
                 break;

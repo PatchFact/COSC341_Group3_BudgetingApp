@@ -59,10 +59,20 @@ public class Dashboard extends DrawerBaseActivity {
                 outputStream.write("\n".getBytes());
                 outputStream.close();
             }
+            String line = "1, 1, -50.70, 29-11-22, RBC, Save On Foods\n"+"1, 2, -32.45, 30-11-22, Scotiabank, Safeway\n+" +
+                    "1, 3, 100.00, 30-12-22, Scotiabank, Payday\n"+"2, 1, -80.50, 19-11-22, RBC, Gas\n"+"2, 2, -52.45, 29-11-22, Scotiabank, Gas\n"+
+                    "2, 3, -2, 30-11-22, Scotiabank, Bus\n"+"2, 3, -220, 14-12-22, RBC, Insurance\n"+"2, 1, -24.45, 10-12-22, RBC, Car Wash\n";
+
+            FileOutputStream writer = openFileOutput("transactions_2.csv", Context.MODE_APPEND);
+            writer.write(line.getBytes());
+            writer.close();
         }
         catch (Exception e) {
             e.printStackTrace();
         }
+
+
+
     }
     private void createEnvelopeCSV() {
         //Data being written to CSV for demo purposes only

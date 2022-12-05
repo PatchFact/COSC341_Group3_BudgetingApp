@@ -11,9 +11,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.budgetingapp.databinding.ActivityReportsSummaryEnvelopeBinding;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
@@ -39,7 +41,10 @@ import java.util.ArrayList;
 //implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0' paste into dependencies -> build.gradle (app)
 //sync gradle
 
-public class reports_summary_activity_envelope extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class reports_summary_activity_envelope extends DrawerBaseActivity implements AdapterView.OnItemSelectedListener {
+
+    ActivityReportsSummaryEnvelopeBinding activityReportsSummaryEnvelopeBinding;
+
     public PieChart pieChart;
     public BarChart barChart;
     public ArrayList<String[]> split = new ArrayList<>();
@@ -47,7 +52,8 @@ public class reports_summary_activity_envelope extends AppCompatActivity impleme
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reports_summary_envelope);
+        activityReportsSummaryEnvelopeBinding = ActivityReportsSummaryEnvelopeBinding.inflate(getLayoutInflater());
+        setContentView(activityReportsSummaryEnvelopeBinding.getRoot());
 
         Intent intent = getIntent();
         int viewTypeNum = intent.getIntExtra("summaryType",0);
@@ -89,7 +95,7 @@ public class reports_summary_activity_envelope extends AppCompatActivity impleme
                 ArrayList<String> moneySpent = new ArrayList<>();
                 ArrayList<String> percentages = new ArrayList<>();
                 ArrayList<String> categories = new ArrayList<>();
-                String file = "transactions.csv";
+                String file = "transactions_2.csv";
 
                 try{
 
@@ -165,7 +171,7 @@ public class reports_summary_activity_envelope extends AppCompatActivity impleme
             spinner.setOnItemSelectedListener(this);
             try{
 
-                String file = "transactions.csv";
+                String file = "transactions_2.csv";
                 FileInputStream fis = openFileInput(file);
                 InputStreamReader isr = new InputStreamReader(fis);
                 BufferedReader br = new BufferedReader(isr);
@@ -284,7 +290,9 @@ public class reports_summary_activity_envelope extends AppCompatActivity impleme
                     remainingBudgetArray.add((int) remainingMoney);
                     String[] envelopName = {"","","Transportation"};
 
-
+                    if(percentages.size()==0){
+                        Toast.makeText(getApplicationContext(), "No transactions during this time", Toast.LENGTH_SHORT).show();
+                    }
                     loadPieChartData(percentages,categories);
                     setupBarChart();
                     loadBarChartData(remainingBudgetArray,envelopName,"Remaining Budget");
@@ -326,7 +334,9 @@ public class reports_summary_activity_envelope extends AppCompatActivity impleme
                     remainingBudgetArray.add((int) remainingMoney);
                     String[] envelopName = {"","","Transportation"};
 
-
+                    if(percentages.size()==0){
+                        Toast.makeText(getApplicationContext(), "No transactions during this time", Toast.LENGTH_SHORT).show();
+                    }
                     loadPieChartData(percentages,categories);
                     setupBarChart();
                     loadBarChartData(remainingBudgetArray,envelopName,"Remaining Budget");
@@ -367,7 +377,9 @@ public class reports_summary_activity_envelope extends AppCompatActivity impleme
                     remainingBudgetArray.add((int) remainingMoney);
                     String[] envelopName = {"","","Groceries"};
 
-
+                    if(percentages.size()==0){
+                        Toast.makeText(getApplicationContext(), "No transactions during this time", Toast.LENGTH_SHORT).show();
+                    }
                     loadPieChartData(percentages,categories);
                     setupBarChart();
                     loadBarChartData(remainingBudgetArray,envelopName,"Remaining Budget");
@@ -407,7 +419,9 @@ public class reports_summary_activity_envelope extends AppCompatActivity impleme
                     remainingBudgetArray.add((int) remainingMoney);
                     String[] envelopName = {"","","Groceries"};
 
-
+                    if(percentages.size()==0){
+                        Toast.makeText(getApplicationContext(), "No transactions during this time", Toast.LENGTH_SHORT).show();
+                    }
                     loadPieChartData(percentages,categories);
                     setupBarChart();
                     loadBarChartData(remainingBudgetArray,envelopName,"Remaining Budget");
@@ -478,7 +492,9 @@ public class reports_summary_activity_envelope extends AppCompatActivity impleme
                     moneySpentArray.add((int) moneyOut);
                     String[] accountName = {"","","RBC"};
 
-
+                    if(percentages.size()==0){
+                        Toast.makeText(getApplicationContext(), "No transactions during this time", Toast.LENGTH_SHORT).show();
+                    }
                     loadPieChartData(percentages,categories);
                     setupBarChart();
                     loadBarChartData(moneySpentArray,accountName,"Dollar Amount Spent");
@@ -514,7 +530,9 @@ public class reports_summary_activity_envelope extends AppCompatActivity impleme
                     moneySpentArray.add((int) moneyOut);
                     String[] accountName = {"","","Scotiabank"};
 
-
+                    if(percentages.size()==0){
+                        Toast.makeText(getApplicationContext(), "No transactions during this time", Toast.LENGTH_SHORT).show();
+                    }
                     loadPieChartData(percentages,categories);
                     setupBarChart();
                     loadBarChartData(moneySpentArray,accountName,"Dollar Amount Spent");
@@ -550,7 +568,9 @@ public class reports_summary_activity_envelope extends AppCompatActivity impleme
                     moneySpentArray.add((int) moneyOut);
                     String[] accountName = {"","","Scotiabank"};
 
-
+                    if(percentages.size()==0){
+                        Toast.makeText(getApplicationContext(), "No transactions during this time", Toast.LENGTH_SHORT).show();
+                    }
                     loadPieChartData(percentages,categories);
                     setupBarChart();
                     loadBarChartData(moneySpentArray,accountName,"Dollar Amount Spent");
@@ -577,7 +597,7 @@ public class reports_summary_activity_envelope extends AppCompatActivity impleme
         barChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(categories));
         barChart.getXAxis().setLabelCount(categories.length - 2);
         BarData theData = new BarData(barDataSet);
-
+        theData.setValueTextSize(16f);
         barChart.setData(theData);
         barChart.invalidate();
     }
@@ -636,7 +656,7 @@ public class reports_summary_activity_envelope extends AppCompatActivity impleme
         PieData data = new PieData(dataSet);
         data.setDrawValues(true);
         data.setValueFormatter(new PercentFormatter(pieChart));
-        data.setValueTextSize(12f);
+        data.setValueTextSize(16f);
         data.setValueTextColor(Color.BLACK);
 
         pieChart.setData(data);

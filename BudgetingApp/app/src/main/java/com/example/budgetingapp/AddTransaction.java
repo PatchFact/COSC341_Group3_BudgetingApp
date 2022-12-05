@@ -1,11 +1,10 @@
 package com.example.budgetingapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -13,8 +12,11 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.util.Objects;
+import java.io.InputStreamReader;
 
 import com.example.budgetingapp.databinding.ActivityAddTransactionBinding;
 
@@ -22,13 +24,15 @@ public class AddTransaction extends DrawerBaseActivity {
 
     ActivityAddTransactionBinding activityAddTransactionBinding;
 
-    //Edit transactions (and delete)
+    boolean editing = false;
+    int transactionPosition;
 
     boolean checksPassed = false;
 
     CheckBox incomeCheck;
     Spinner env_spinner, account_spinner;
     Button submitButton;
+    Button deleteButton;
     //TODO: change the date edit to something good
     //TODO: limit amount add to 2 decimal places (currency input)
     EditText dateEdit, noteEdit, amountEdit;
@@ -39,10 +43,17 @@ public class AddTransaction extends DrawerBaseActivity {
         activityAddTransactionBinding = ActivityAddTransactionBinding.inflate(getLayoutInflater());
         setContentView(activityAddTransactionBinding.getRoot());
 
-
         allocateActivityTitle("Add Transaction");
 
 
+        Intent intent = this.getIntent();
+
+        //Check if we are editing
+        if (intent.hasExtra("date")) {
+            editing = true;
+
+            allocateActivityTitle("Edit transaction");
+        }
 
         //Initialize
         dateEdit = findViewById(R.id.date_edit);
@@ -69,9 +80,53 @@ public class AddTransaction extends DrawerBaseActivity {
         acc_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         account_spinner.setAdapter(acc_adapter);
 
+        //Editing behaviour
+        if (editing) {
+            Bundle bundle = intent.getExtras();
+
+            //Set defaults to be those of transaction being edited
+            //Set income check
+            if ( Double.parseDouble(bundle.getString("amount")) >= 0) {
+                incomeCheck.setChecked(true);
+            }
+
+            //Set spinners
+            ArrayAdapter spinnerAdapter = (ArrayAdapter) env_spinner.getAdapter();
+            int spinnerPosition = spinnerAdapter.getPosition(bundle.getString("envelope"));
+            env_spinner.setSelection(spinnerPosition);
+
+            spinnerAdapter = (ArrayAdapter) account_spinner.getAdapter();
+            spinnerPosition = spinnerAdapter.getPosition(bundle.getString("account"));
+            account_spinner.setSelection(spinnerPosition);
+
+            //Set TextEdits
+            dateEdit.setText(bundle.getString("date"));
+            amountEdit.setText(bundle.getString("amount").replace("-",""));
+            noteEdit.setText(bundle.getString("note"));
+
+            //Set transaction position for data submission
+            transactionPosition = bundle.getInt("position");
+        }
+
+        //Button to delete data in editing mode
+        if (editing) {
+            deleteButton = findViewById(R.id.delete_button);
+            //Make delete button visible
+            deleteButton.setVisibility(View.VISIBLE);
+            deleteButton.setOnClickListener(v -> {
+                deleteRecord(transactionPosition);
+                Intent i = new Intent(AddTransaction.this, TransactionsOverview.class);
+                startActivity(i);
+            });
+        }
+
         //Button to submit data and write to file
         submitButton = findViewById(R.id.add_transaction_button);
+//        if (editing) {
+//            submitButton.setText("Done");
+//        }
         submitButton.setOnClickListener(v -> {
+
             //Validate
             checksPassed = checkFields();
             if (checksPassed) {
@@ -103,6 +158,10 @@ public class AddTransaction extends DrawerBaseActivity {
                         env_spinner.getSelectedItem().toString()
                 ) + "\n";
 
+                if (editing) {
+                    deleteRecord(transactionPosition);
+                }
+
                 //Write to file
                 FileOutputStream outputStream;
                 try {
@@ -114,10 +173,49 @@ public class AddTransaction extends DrawerBaseActivity {
                     e.printStackTrace();
                 }
 
-                Intent intent = new Intent(AddTransaction.this, TransactionsOverview.class);
-                startActivity(intent);
+                Intent i = new Intent(AddTransaction.this, TransactionsOverview.class);
+                startActivity(i);
             }
         });
+    }
+
+    private void deleteRecord(int transactionPosition) {
+        transactionPosition += 1;
+        FileOutputStream outputStream;
+
+        File dir = getFilesDir();
+        File oldFile = new File(dir,"myTransactions.csv");
+
+        int line = 0;
+        String currentLine;
+
+        String fileContents = "";
+
+        try {
+            FileInputStream fis = openFileInput("myTransactions.csv");
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader br = new BufferedReader(isr);
+
+            while((currentLine = br.readLine()) != null) {
+                line++;
+
+                if(transactionPosition != line) {
+                    fileContents += (currentLine + "\n");
+                }
+            }
+
+            oldFile.delete();
+
+            outputStream = openFileOutput("myTransactions.csv", Context.MODE_APPEND);
+            outputStream.write(fileContents.getBytes());
+            outputStream.close();
+
+            fis.close();
+            isr.close();
+            br.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private boolean checkFields() {
