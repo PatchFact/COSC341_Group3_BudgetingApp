@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -94,7 +95,7 @@ public class reports_summary_activity_envelope extends DrawerBaseActivity implem
                 ArrayList<String> moneySpent = new ArrayList<>();
                 ArrayList<String> percentages = new ArrayList<>();
                 ArrayList<String> categories = new ArrayList<>();
-                String file = "transactions.csv";
+                String file = "transactions_2.csv";
 
                 try{
 
@@ -170,7 +171,7 @@ public class reports_summary_activity_envelope extends DrawerBaseActivity implem
             spinner.setOnItemSelectedListener(this);
             try{
 
-                String file = "transactions.csv";
+                String file = "transactions_2.csv";
                 FileInputStream fis = openFileInput(file);
                 InputStreamReader isr = new InputStreamReader(fis);
                 BufferedReader br = new BufferedReader(isr);
@@ -289,7 +290,9 @@ public class reports_summary_activity_envelope extends DrawerBaseActivity implem
                     remainingBudgetArray.add((int) remainingMoney);
                     String[] envelopName = {"","","Transportation"};
 
-
+                    if(percentages.size()==0){
+                        Toast.makeText(getApplicationContext(), "No transactions during this time", Toast.LENGTH_SHORT).show();
+                    }
                     loadPieChartData(percentages,categories);
                     setupBarChart();
                     loadBarChartData(remainingBudgetArray,envelopName,"Remaining Budget");
@@ -331,7 +334,9 @@ public class reports_summary_activity_envelope extends DrawerBaseActivity implem
                     remainingBudgetArray.add((int) remainingMoney);
                     String[] envelopName = {"","","Transportation"};
 
-
+                    if(percentages.size()==0){
+                        Toast.makeText(getApplicationContext(), "No transactions during this time", Toast.LENGTH_SHORT).show();
+                    }
                     loadPieChartData(percentages,categories);
                     setupBarChart();
                     loadBarChartData(remainingBudgetArray,envelopName,"Remaining Budget");
@@ -372,7 +377,9 @@ public class reports_summary_activity_envelope extends DrawerBaseActivity implem
                     remainingBudgetArray.add((int) remainingMoney);
                     String[] envelopName = {"","","Groceries"};
 
-
+                    if(percentages.size()==0){
+                        Toast.makeText(getApplicationContext(), "No transactions during this time", Toast.LENGTH_SHORT).show();
+                    }
                     loadPieChartData(percentages,categories);
                     setupBarChart();
                     loadBarChartData(remainingBudgetArray,envelopName,"Remaining Budget");
@@ -412,7 +419,9 @@ public class reports_summary_activity_envelope extends DrawerBaseActivity implem
                     remainingBudgetArray.add((int) remainingMoney);
                     String[] envelopName = {"","","Groceries"};
 
-
+                    if(percentages.size()==0){
+                        Toast.makeText(getApplicationContext(), "No transactions during this time", Toast.LENGTH_SHORT).show();
+                    }
                     loadPieChartData(percentages,categories);
                     setupBarChart();
                     loadBarChartData(remainingBudgetArray,envelopName,"Remaining Budget");
@@ -483,7 +492,9 @@ public class reports_summary_activity_envelope extends DrawerBaseActivity implem
                     moneySpentArray.add((int) moneyOut);
                     String[] accountName = {"","","RBC"};
 
-
+                    if(percentages.size()==0){
+                        Toast.makeText(getApplicationContext(), "No transactions during this time", Toast.LENGTH_SHORT).show();
+                    }
                     loadPieChartData(percentages,categories);
                     setupBarChart();
                     loadBarChartData(moneySpentArray,accountName,"Dollar Amount Spent");
@@ -519,7 +530,9 @@ public class reports_summary_activity_envelope extends DrawerBaseActivity implem
                     moneySpentArray.add((int) moneyOut);
                     String[] accountName = {"","","Scotiabank"};
 
-
+                    if(percentages.size()==0){
+                        Toast.makeText(getApplicationContext(), "No transactions during this time", Toast.LENGTH_SHORT).show();
+                    }
                     loadPieChartData(percentages,categories);
                     setupBarChart();
                     loadBarChartData(moneySpentArray,accountName,"Dollar Amount Spent");
@@ -555,7 +568,9 @@ public class reports_summary_activity_envelope extends DrawerBaseActivity implem
                     moneySpentArray.add((int) moneyOut);
                     String[] accountName = {"","","Scotiabank"};
 
-
+                    if(percentages.size()==0){
+                        Toast.makeText(getApplicationContext(), "No transactions during this time", Toast.LENGTH_SHORT).show();
+                    }
                     loadPieChartData(percentages,categories);
                     setupBarChart();
                     loadBarChartData(moneySpentArray,accountName,"Dollar Amount Spent");
@@ -582,7 +597,7 @@ public class reports_summary_activity_envelope extends DrawerBaseActivity implem
         barChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(categories));
         barChart.getXAxis().setLabelCount(categories.length - 2);
         BarData theData = new BarData(barDataSet);
-
+        theData.setValueTextSize(16f);
         barChart.setData(theData);
         barChart.invalidate();
     }
@@ -641,7 +656,7 @@ public class reports_summary_activity_envelope extends DrawerBaseActivity implem
         PieData data = new PieData(dataSet);
         data.setDrawValues(true);
         data.setValueFormatter(new PercentFormatter(pieChart));
-        data.setValueTextSize(12f);
+        data.setValueTextSize(16f);
         data.setValueTextColor(Color.BLACK);
 
         pieChart.setData(data);

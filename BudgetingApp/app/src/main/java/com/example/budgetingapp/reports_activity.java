@@ -34,18 +34,6 @@ public class reports_activity extends DrawerBaseActivity {
         Button currentMonthAccount = findViewById(R.id.button2);
         Button backButton = findViewById(R.id.button5);
 
-        String line = "1, 1, -50.70, 29-11-22, RBC, Save On Foods\n"+"1, 2, -32.45, 30-11-22, Scotiabank, Safeway\n+" +
-                "1, 3, 100.00, 30-12-22, Scotiabank, Payday\n"+"2, 1, -80.50, 19-11-22, RBC, Gas\n"+"2, 2, -52.45, 29-11-22, Scotiabank, Gas\n"+
-                "2, 3, -2, 30-11-22, Scotiabank, Bus\n"+"2, 3, -220, 14-12-22, RBC, Insurance\n"+"2, 1, -24.45, 10-12-22, RBC, Car Wash\n";
-        try{
-            FileOutputStream writer = openFileOutput("transactions.csv", Context.MODE_APPEND);
-            writer.write(line.getBytes());
-            writer.close();
-            //Toast.makeText(getApplicationContext(), "Wrote to "+getApplicationContext().getFilesDir(), Toast.LENGTH_SHORT).show();
-        }catch(IOException e){
-            Toast.makeText(getApplicationContext(), "Failed to write. An error occurred", Toast.LENGTH_SHORT).show();
-        }
-
 
         currentMonthEnvelope.setOnClickListener(new View.OnClickListener() {
             @Override
