@@ -34,7 +34,7 @@ public class AddTransaction extends DrawerBaseActivity {
 
     CheckBox incomeCheck;
     Spinner env_spinner, account_spinner;
-    Button submitButton, deleteButton, datePickerButton;
+    Button submitButton, deleteButton, datePickerButton, backButton;
     EditText noteEdit, amountEdit;
 
     private DatePickerDialog datePickerDialog;
@@ -60,11 +60,18 @@ public class AddTransaction extends DrawerBaseActivity {
         noteEdit = findViewById(R.id.note_edit);
         amountEdit = findViewById(R.id.amount_edit);
         incomeCheck = findViewById(R.id.incomeCheck);
+
         initDatePicker();
         datePickerButton = findViewById(R.id.date_picker_button);
         datePickerButton.setText(getTodayDate());
         datePickerButton.setOnClickListener(v -> {
             openDatePicker(v);
+        });
+
+        backButton = findViewById(R.id.back_button);
+        backButton.setOnClickListener(v -> {
+            Intent i = new Intent(AddTransaction.this, TransactionsOverview.class);
+            startActivity(i);
         });
 
         //Populate Spinners
