@@ -14,7 +14,7 @@
         android:layout_marginTop="160dp"
         android:gravity="center"
         android:text="Date"
-        app:layout_constraintEnd_toStartOf="@+id/date_edit"
+        app:layout_constraintEnd_toStartOf="@+id/date_picker_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -70,18 +70,23 @@
         android:hint="Ex: Guitar Class (optional)"
         android:inputType="textPersonName"
         app:layout_constraintStart_toEndOf="@+id/note_textview"
-        app:layout_constraintTop_toBottomOf="@+id/date_edit" />
+        app:layout_constraintTop_toBottomOf="@+id/date_picker_button" />
 
-    <EditText
-        android:id="@+id/date_edit"
+    <Button
+        android:id="@+id/date_picker_button"
         android:layout_width="220dp"
         android:layout_height="50dp"
         android:layout_marginTop="160dp"
+        android:text="JAN 01 2022"
+        android:textColor="@color/material_dynamic_neutral60"
+        style="?android:spinnerStyle"
+        android:backgroundTint="@color/design_default_color_background"
         android:ems="10"
         android:inputType="date"
         app:layout_constraintStart_toEndOf="@+id/date_textview"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="SpeakableTextPresentCheck" />
+        tools:ignore="SpeakableTextPresentCheck"
+        />
 
     <Spinner
         android:id="@+id/env_spinner"
