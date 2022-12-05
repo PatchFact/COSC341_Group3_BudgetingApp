@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.budgetingapp.databinding.ActivityEnvelopeEditBinding;
 
@@ -22,6 +23,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.Objects;
 
 import yuku.ambilwarna.AmbilWarnaDialog;
 
@@ -39,6 +41,7 @@ public class EnvelopeAdd extends DrawerBaseActivity {
         super.onCreate(savedInstanceState);
         activityEnvelopeEditBinding = ActivityEnvelopeEditBinding.inflate(getLayoutInflater());
         setContentView(activityEnvelopeEditBinding.getRoot());
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Add an Envelope");
 
         colorPickerButton = (Button) findViewById(R.id.colorPickerButton);
         colorPickerButton.setOnClickListener(new View.OnClickListener() {
@@ -66,7 +69,7 @@ public class EnvelopeAdd extends DrawerBaseActivity {
             }
         });
     }
-
+    // Using open source color picker to pick hex color
     private void openColorPicker() {
         AmbilWarnaDialog colorPicker = new AmbilWarnaDialog(this, envelopeColor, new AmbilWarnaDialog.OnAmbilWarnaListener() {
             @Override
@@ -87,14 +90,31 @@ public class EnvelopeAdd extends DrawerBaseActivity {
     private void addEnvelopeToCSV() {
         EditText name = (EditText) findViewById(R.id.editNameText);
         EditText budget = (EditText) findViewById(R.id.editBudgetText);
-        String fileContents =  name.getText() + "," + budget.getText() + "," + Integer.toUnsignedString(envelopeColor,16) + "\n";
-        try {
-            FileOutputStream outputStream = openFileOutput("envelopes.csv", Context.MODE_APPEND);
-            outputStream.write(fileContents.getBytes());
-            outputStream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(isNumeric(budget.getText().toString())) {
+            String fileContents = name.getText() + "," + budget.getText() + "," + Integer.toUnsignedString(envelopeColor, 16) + "\n";
+            try {
+                FileOutputStream outputStream = openFileOutput("envelopes.csv", Context.MODE_APPEND);
+                outputStream.write(fileContents.getBytes());
+                outputStream.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            Toast.makeText(this, "Budget must be a number", Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    public boolean isNumeric(String string) {
+        if (string == null) {
+            return false;
+        }
+        try {
+            double num = Double.parseDouble(string);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
     }
 }
