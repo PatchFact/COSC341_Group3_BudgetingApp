@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.budgetingapp.databinding.ActivityEnvelopeEditBinding;
 
@@ -87,14 +88,33 @@ public class EnvelopeAdd extends DrawerBaseActivity {
     private void addEnvelopeToCSV() {
         EditText name = (EditText) findViewById(R.id.editNameText);
         EditText budget = (EditText) findViewById(R.id.editBudgetText);
-        String fileContents =  name.getText() + "," + budget.getText() + "," + Integer.toUnsignedString(envelopeColor,16) + "\n";
-        try {
-            FileOutputStream outputStream = openFileOutput("envelopes.csv", Context.MODE_APPEND);
-            outputStream.write(fileContents.getBytes());
-            outputStream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(isNumeric(budget.getText().toString())) {
+            String fileContents = name.getText() + "," + budget.getText() + "," + Integer.toUnsignedString(envelopeColor, 16) + "\n";
+            try {
+                File envelopes = new File("envelopes.csv");
+                envelopes.createNewFile();
+                FileOutputStream outputStream = openFileOutput("envelopes.csv", Context.MODE_APPEND);
+                outputStream.write(fileContents.getBytes());
+                outputStream.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            Toast.makeText(this, "Budget must be a number", Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    public boolean isNumeric(String string) {
+        if (string == null) {
+            return false;
+        }
+        try {
+            double num = Double.parseDouble(string);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
     }
 }

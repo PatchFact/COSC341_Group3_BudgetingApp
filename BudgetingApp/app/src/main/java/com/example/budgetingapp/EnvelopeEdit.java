@@ -9,6 +9,7 @@ import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -102,30 +103,46 @@ public class EnvelopeEdit extends DrawerBaseActivity {
     //TODO: Write method that takes in name, budget, and color and adds envelope to XML data file
     private void editEnvelope(String name) {
         StringBuffer buffer = new StringBuffer();
-
-        try {
-            String line = "";
-            FileInputStream fis = null;
-            fis = openFileInput("envelopes.csv");
-            InputStreamReader isr = new InputStreamReader(fis);
-            BufferedReader br = new BufferedReader(isr);
-            while ((line = br.readLine()) != null) {
-                if(line.contains(name)) {
-                    line = nameText.getText() + "," + budgetText.getText() + "," + Integer.toUnsignedString(envelopeColor,16);
+        if(isNumeric(budgetText.getText().toString())) {
+            try {
+                String line = "";
+                FileInputStream fis = null;
+                fis = openFileInput("envelopes.csv");
+                InputStreamReader isr = new InputStreamReader(fis);
+                BufferedReader br = new BufferedReader(isr);
+                while ((line = br.readLine()) != null) {
+                    if (line.contains(name)) {
+                        line = nameText.getText() + "," + budgetText.getText() + "," + Integer.toUnsignedString(envelopeColor, 16);
+                    }
+                    buffer.append(line + "\n");
                 }
-                buffer.append(line + "\n");
-            }
 
-            FileOutputStream outputStream = openFileOutput("envelopes.csv", 0);
-            outputStream.write(buffer.toString().getBytes());
-            outputStream.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+                FileOutputStream outputStream = openFileOutput("envelopes.csv", 0);
+                outputStream.write(buffer.toString().getBytes());
+                outputStream.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            Toast.makeText(this, "Budget must be a number", Toast.LENGTH_SHORT).show();
         }
 
 
 
+    }
+
+    public boolean isNumeric(String string) {
+        if (string == null) {
+            return false;
+        }
+        try {
+            double num = Double.parseDouble(string);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
     }
 }

@@ -42,6 +42,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class EnvelopesOverview extends DrawerBaseActivity implements AdapterView.OnItemClickListener {
 
@@ -62,7 +63,6 @@ public class EnvelopesOverview extends DrawerBaseActivity implements AdapterView
         setContentView(activityEnvelopesOverviewBinding.getRoot());
 
         allocateActivityTitle("Envelopes Overview");
-
 
         setContentView(R.layout.activity_envelopes_overview);
         readEnvelopes();
@@ -287,4 +287,7 @@ public class EnvelopesOverview extends DrawerBaseActivity implements AdapterView
         String color;
 
     }
+
+
 }
+
