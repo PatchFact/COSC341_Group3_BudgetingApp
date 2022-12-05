@@ -6,12 +6,11 @@
   - [x] Route to dashboard
 - [x] Envelopes - Brock
   - [x] Read in transactions (total balance)
-- [ ] Acccounts - Erfan
+- [x] Acccounts - Erfan
 - [x] Transactions - Esteban
   - [x] Read transactions
   - [x] Write transaction
-    - [ ] Better Date picker
-    - [ ] Better Amount picker
+    - [x] Better Date picker
   - [x] Edit/Delete transaction
 - [x] Reports - Rommel
 
