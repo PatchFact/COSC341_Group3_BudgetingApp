@@ -17,6 +17,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Objects;
 
 import yuku.ambilwarna.AmbilWarnaDialog;
 
@@ -39,6 +40,7 @@ public class EnvelopeEdit extends DrawerBaseActivity {
 
         activityEnvelopeEditBinding = ActivityEnvelopeEditBinding.inflate(getLayoutInflater());
         setContentView(activityEnvelopeEditBinding.getRoot());
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Edit an Envelope");
 
         allocateActivityTitle("Envelope Edit");
 
@@ -83,6 +85,7 @@ public class EnvelopeEdit extends DrawerBaseActivity {
             }
         });
     }
+    // Using open source color picker to pick hex color
     private void openColorPicker() {
         AmbilWarnaDialog colorPicker = new AmbilWarnaDialog(this, envelopeColor, new AmbilWarnaDialog.OnAmbilWarnaListener() {
             @Override

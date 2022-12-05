@@ -39,6 +39,7 @@ public class TransactionsOverview extends DrawerBaseActivity {
     ActivityTransactionsOverviewBinding activityTransactionsOverviewBinding;
 
     Button addButton;
+    Button reportButton;
     ListView transactionListView;
 
     ArrayList<Transaction> allTransactions = new ArrayList<>();
@@ -54,6 +55,13 @@ public class TransactionsOverview extends DrawerBaseActivity {
 
         addButton = findViewById(R.id.add_button);
         addButton.setOnClickListener(v -> {
+            Intent intent = new Intent(TransactionsOverview.this, AddTransaction.class);
+
+            startActivity(intent);
+        });
+
+        reportButton = findViewById(R.id.addEnvelopeButton);
+        reportButton.setOnClickListener(v -> {
             Intent intent = new Intent(TransactionsOverview.this, AddTransaction.class);
 
             startActivity(intent);
