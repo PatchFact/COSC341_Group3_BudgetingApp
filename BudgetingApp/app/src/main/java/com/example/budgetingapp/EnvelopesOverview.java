@@ -75,7 +75,7 @@ public class EnvelopesOverview extends DrawerBaseActivity implements AdapterView
         showReportsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(EnvelopesOverview.this, reports_activity.class);
+                Intent intent = new Intent(EnvelopesOverview.this, reports.class);
                 startActivity(intent);
             }
         });
@@ -278,7 +278,7 @@ public class EnvelopesOverview extends DrawerBaseActivity implements AdapterView
     }
 
     // List item contents
-    public class ViewHolder {
+    public static class ViewHolder {
         ImageView edit;
         ImageView delete;
         TextView name;

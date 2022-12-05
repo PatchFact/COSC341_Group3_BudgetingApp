@@ -8,12 +8,15 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.example.budgetingapp.databinding.ActivityDashboardBinding;
+import com.example.budgetingapp.databinding.ActivityMainBinding;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
@@ -23,6 +26,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Objects;
 import java.util.Scanner;
 
 import java.util.ArrayList;
@@ -55,10 +59,20 @@ public class Dashboard extends DrawerBaseActivity {
                 outputStream.write("\n".getBytes());
                 outputStream.close();
             }
+            String line = "1, 1, -50.70, 29-11-22, RBC, Save On Foods\n"+"1, 2, -32.45, 30-11-22, Scotiabank, Safeway\n+" +
+                    "1, 3, 100.00, 30-12-22, Scotiabank, Payday\n"+"2, 1, -80.50, 19-11-22, RBC, Gas\n"+"2, 2, -52.45, 29-11-22, Scotiabank, Gas\n"+
+                    "2, 3, -2, 30-11-22, Scotiabank, Bus\n"+"2, 3, -220, 14-12-22, RBC, Insurance\n"+"2, 1, -24.45, 10-12-22, RBC, Car Wash\n";
+
+            FileOutputStream writer = openFileOutput("transactions_2.csv", Context.MODE_APPEND);
+            writer.write(line.getBytes());
+            writer.close();
         }
         catch (Exception e) {
             e.printStackTrace();
         }
+
+
+
     }
     private void createEnvelopeCSV() {
         //Data being written to CSV for demo purposes only
@@ -103,8 +117,6 @@ public class Dashboard extends DrawerBaseActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        Toast.makeText(this, "x", Toast.LENGTH_SHORT).show();
 
         for (int i = 0; i < envelope_list.size(); i++) {
 
@@ -166,20 +178,28 @@ public class Dashboard extends DrawerBaseActivity {
         chart.setPinchZoom(false);
         chart.setDrawBarShadow(false);
         chart.setDrawGridBackground(true);
-
         chart.getDescription().setEnabled(false);
 
+        chart.getXAxis().setEnabled(false);
+        /*final String[] months = new String[] {"July", "August", "September", "October", "November", "December"};
+        ValueFormatter formatter = new ValueFormatter() {
+            @Override
+            public String getAxisLabel(float value, AxisBase axis) {
+                return months[(int) value];
+            }
+        };
         XAxis xAxis = chart.getXAxis();
         xAxis.setGranularity(1f);
+        xAxis.setValueFormatter(formatter);
         xAxis.setCenterAxisLabels(true);
+        */
 
         YAxis leftAxis = chart.getAxisLeft();
-        leftAxis.setDrawGridLines(false);
+        leftAxis.setDrawGridLines(true);
         leftAxis.setAxisMinimum(0f);
 
         chart.getAxisRight().setEnabled(false);
-        chart.getXAxis().setAxisMinimum(0);
-        chart.getXAxis().setAxisMaximum(MAX_X_VALUE);
+        chart.invalidate();
     }
     private double getBudget() {
         double budget = 0.0;
@@ -191,6 +211,7 @@ public class Dashboard extends DrawerBaseActivity {
             while ((line = br.readLine()) != null) {
                 if (line == "")
                     break;
+
                 budget = budget + Double.parseDouble(line.split(",")[0]);
             }
         } catch(FileNotFoundException e) {
@@ -226,6 +247,7 @@ public class Dashboard extends DrawerBaseActivity {
         super.onCreate(savedInstanceState);
         activityDashboardBinding = ActivityDashboardBinding.inflate(getLayoutInflater());
         setContentView(activityDashboardBinding.getRoot());
+        allocateActivityTitle("Dashboard");
 
         //Check csv files exist; create if not
         try {
@@ -247,8 +269,8 @@ public class Dashboard extends DrawerBaseActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        configureChartAppearance();
         prepareChartData(data);
+        configureChartAppearance();
 
         //Set textView values
         Double amt_budget = getBudget();
