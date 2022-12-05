@@ -48,8 +48,7 @@ public class TransactionsOverview extends DrawerBaseActivity {
 
         try {
             allTransactions = readTransactions();
-            Collections.sort(allTransactions);
-            //TODO: Sort?
+            //TODO: implement sort?
         } catch (Exception e) {
             e.printStackTrace();
         }
