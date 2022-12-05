@@ -122,9 +122,9 @@ public class AddTransaction extends DrawerBaseActivity {
 
         //Button to submit data and write to file
         submitButton = findViewById(R.id.add_transaction_button);
-//        if (editing) {
-//            submitButton.setText("Done");
-//        }
+        if (editing) {
+            submitButton.setText("Done");
+        }
         submitButton.setOnClickListener(v -> {
 
             //Validate
